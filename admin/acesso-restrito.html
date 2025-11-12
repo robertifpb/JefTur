@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/favicon_admin.ico" type="image/x-icon">
+    <title>Admin - JF Turismo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="acessorestrito.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3 class="brand">
+                <span class="material-icons">flight</span>
+                <span>JF Turismo</span>
+            </h3>
+            <span class="material-icons">menu_open</span>
+        </div>
+        <!-- Menu -->
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="adminpage.html" class="active">
+                        <span class="material-icons">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gerenciar_pacotes.html">
+                        <span class="material-icons">card_travel</span>
+                        <span>Gerenciar Pacotes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gerenciar_reservas.html">
+                        <span class="material-icons">book_online</span>
+                        <span>Gerenciar Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="resultado.html">
+                        <span class="material-icons">bar_chart</span>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html">
+                        <span class="material-icons">settings</span>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logout.html">
+                        <span class="material-icons">logout</span>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <div class="search-wrapper">
+                <span class="material-icons">search</span>
+                <input type="search" placeholder="Pesquisar...">
+            </div>
+
+            <div class="social-icons">
+                <span class="material-icons">notifications</span>
+                <span class="material-icons">email</span>
+                <span class="material-icons">mode_comment</span>
+                <div></div>
+            </div>
+        </header>
+        <!-- Dashboard Content -->
+        <main>
+            
+            <h2>Dashboard</h2>
+
+            <div class="dashboard-cards">
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">people</span>
+                        <div>
+                            <h5>Usuários</h5>
+                            <h4>1500</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#">Ver todos</a>
+                    </div>
+                </div>
+
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">card_travel</span>
+                        <div>
+                            <h5>Pacotes Vendidos</h5>
+                            <h4>320</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#">Ver detalhes</a>
+                    </div>
+                </div>
+
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">attach_money</span>
+                        <div>
+                            <h5>Receita Mensal</h5>
+                            <h4>R$ 45.000</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#">Ver relatório</a>
+                    </div>
+                </div>
+            </div>
+
+<section class="recent">
+    <div class="activity-grid">
+        <div class="activity-card">
+            <h3>Vendas recentes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pacote</th>
+                        <th>Data da Compra</th>
+                        <th>Destino</th>
+                        <th>Cliente</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Conteúdo da tabela -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="summary">
+            <div class="summary-card">
+                <div class="summary-single">
+                    <span class="material-icons">contacts</span>
+                    <div>
+                        <h5>196</h5>
+                        <small>Número de clientes</small>
+                    </div>
+                </div>
+                <div class="summary-single">
+                    <span class="material-icons">calendar_month</span>
+                    <div>
+                        <h5>16</h5>
+                        <small>Dias de viagem</small>
+                    </div>
+                </div>
+                <div class="summary-single">
+                    <span class="material-icons">feedback</span>
+                    <div>
+                        <h5>55</h5>
+                        <small>Feedbacks Positivos</small>
+                    </div>
+                </div>
+                <div class="summary-single">
+                    <span class="material-icons">contacts</span>
+                    <div>
+                        <h5>XXX</h5>
+                        <small>XXXX</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bday-card">
+            <div class="bday-img"></div>
+            <div class="bday-info">
+                <h5>Jhon Doe</h5>
+                <small>Aniversariando Hoje</small>
+                <div>
+                    <button>
+                        <span class="material-icons">redeem</span>
+                        Parabenizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>   
+</section>
+        </main>
+    </div>
+</body>
+</html>
+

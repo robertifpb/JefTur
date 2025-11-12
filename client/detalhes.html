@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes - Chapada dos Veadeiros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+        }
+        .detail-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .detail-header {
+            text-align: center;
+        }
+        .detail-header h1 {
+            font-size: 2em;
+        }
+        .detail-content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .detail-content img {
+            width: 50%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .detail-content .info {
+            flex: 1;
+            margin-left: 20px;
+        }
+        .info h3 {
+            font-size: 1.5em;
+        }
+        .info p {
+            color: #555;
+            margin: 10px 0;
+        }
+        .booking-btn {
+            padding: 15px;
+            background-color: #ff9f00;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <h1>Chapada dos Veadeiros</h1>
+    </div>
+
+    <div class="detail-content">
+        <img src="images\chapada_image_large.jpg" alt="Chapada dos Veadeiros" />
+        <div class="info">
+            <h3>Sobre o Destino</h3>
+            <p>A Chapada dos Veadeiros é um paraíso natural localizado em Goiás, Brasil. Famosa por suas trilhas e cachoeiras, oferece uma experiência única para quem ama ecoturismo e natureza.</p>
+            <h3>Pacotes Disponíveis</h3>
+            <ul>
+                <li>Trilha do Rio Preto - 2 dias: R$ 500</li>
+                <li>Pacote Completo (Hospedagem + Transporte) - 5 dias: R$ 1500</li>
+            </ul>
+            <button class="booking-btn">Reservar Agora</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
