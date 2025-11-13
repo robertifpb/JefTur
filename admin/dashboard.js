@@ -68,7 +68,14 @@ let appState = {
     sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
     activeDropdown: null,
     chatModalOpen: false,
-    searchResults: []
+    searchResults: [],
+    // Variáveis para controle de inatividade
+    lastActivity: Date.now(),
+    inactivityTimer: null,
+    warningTimer: null,
+    sessionTimeout: 30 * 60 * 1000, // 30 minutos em milissegundos
+    warningTime: 5 * 60 * 1000, // 5 minutos de aviso prévio
+    isLoggingOut: false
 };
 
 // Verificar autenticação
@@ -90,6 +97,129 @@ function checkDashboardAuth() {
     return true;
 }
 
+// Sistema de logout automático por inatividade
+function initInactivityTimer() {
+    // Resetar timer a qualquer atividade do usuário
+    resetInactivityTimer();
+    
+    // Eventos que resetam o timer
+    const events = ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'];
+    events.forEach(event => {
+        document.addEventListener(event, resetInactivityTimer, true);
+    });
+    
+    // Iniciar verificação de inatividade
+    startInactivityCheck();
+}
+
+function resetInactivityTimer() {
+    if (appState.isLoggingOut) return;
+    
+    appState.lastActivity = Date.now();
+    
+    // Limpar timers existentes
+    if (appState.inactivityTimer) {
+        clearTimeout(appState.inactivityTimer);
+    }
+    if (appState.warningTimer) {
+        clearTimeout(appState.warningTimer);
+    }
+    
+    // Esconder aviso se estiver visível
+    hideLogoutWarning();
+    
+    // Reiniciar timers
+    startInactivityCheck();
+}
+
+function startInactivityCheck() {
+    // Timer para mostrar aviso
+    appState.warningTimer = setTimeout(showLogoutWarning, appState.sessionTimeout - appState.warningTime);
+    
+    // Timer para logout automático
+    appState.inactivityTimer = setTimeout(autoLogout, appState.sessionTimeout);
+}
+
+function showLogoutWarning() {
+    if (appState.isLoggingOut) return;
+    
+    // Criar modal de aviso
+    const warningModal = document.createElement('div');
+    warningModal.id = 'inactivityWarning';
+    warningModal.className = 'inactivity-warning';
+    warningModal.innerHTML = `
+        <div class="warning-content">
+            <div class="warning-header">
+                <span class="material-icons">warning</span>
+                <h3>Atenção</h3>
+            </div>
+            <div class="warning-body">
+                <p>Sua sessão expirará em <strong id="countdown">5:00</strong> minutos por inatividade.</p>
+                <p>Deseja continuar conectado?</p>
+            </div>
+            <div class="warning-actions">
+                <button id="stayLoggedIn" class="btn-primary">Continuar Conectado</button>
+                <button id="logoutNow" class="btn-secondary">Sair Agora</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(warningModal);
+    
+    // Iniciar contagem regressiva
+    let timeLeft = appState.warningTime / 1000; // converter para segundos
+    const countdownElement = document.getElementById('countdown');
+    const countdownInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+        }
+    }, 1000);
+    
+    // Event listeners para os botões
+    document.getElementById('stayLoggedIn').addEventListener('click', function() {
+        clearInterval(countdownInterval);
+        resetInactivityTimer();
+        hideLogoutWarning();
+    });
+    
+    document.getElementById('logoutNow').addEventListener('click', function() {
+        clearInterval(countdownInterval);
+        handleLogout();
+    });
+    
+    // Fechar modal ao clicar fora
+    warningModal.addEventListener('click', function(e) {
+        if (e.target === warningModal) {
+            clearInterval(countdownInterval);
+            resetInactivityTimer();
+            hideLogoutWarning();
+        }
+    });
+}
+
+function hideLogoutWarning() {
+    const warningModal = document.getElementById('inactivityWarning');
+    if (warningModal) {
+        warningModal.remove();
+    }
+}
+
+function autoLogout() {
+    if (appState.isLoggingOut) return;
+    
+    appState.isLoggingOut = true;
+    showNotification('Sessão expirada por inatividade. Redirecionando para login...', 'warning');
+    
+    setTimeout(() => {
+        handleLogout();
+    }, 2000);
+}
+
 // Inicialização do dashboard
 document.addEventListener('DOMContentLoaded', function() {
     if (!checkDashboardAuth()) return;
@@ -100,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCharts();
     populateTopPackagesTable();
     setupEventListeners();
+    initInactivityTimer(); // Inicializar controle de inatividade
     
     document.body.classList.add('loaded');
 });
@@ -167,7 +298,7 @@ function expandSidebar() {
     localStorage.setItem('sidebarCollapsed', 'false');
 }
 
-// Atulizar saudação
+// Atualizar saudação
 function updateGreeting() {
     const hour = new Date().getHours();
     let greeting = '';
@@ -280,7 +411,7 @@ function initCharts() {
     }
 }
 
-// Preencha a tabela de pacotes principais
+// Preenche a tabela de pacotes principais
 function populateTopPackagesTable() {
     const tableBody = document.querySelector('#topPackagesTable tbody');
     if (!tableBody) return;
@@ -418,15 +549,53 @@ function sendMessage() {
 
 // Sair
 function handleLogout() {
+    console.log('Iniciando logout...');
+    
+    appState.isLoggingOut = true;
+    
+    // Limpar todos os timers
+    if (appState.inactivityTimer) {
+        clearTimeout(appState.inactivityTimer);
+        appState.inactivityTimer = null;
+    }
+    if (appState.warningTimer) {
+        clearTimeout(appState.warningTimer);
+        appState.warningTimer = null;
+    }
+    
+    // Limpar dados de autenticação COMPLETAMENTE
     localStorage.removeItem('authToken');
     localStorage.removeItem('currentUser');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('loginTime');
     
-    showNotification('Logout realizado com sucesso!', 'success');
+    // Manter apenas o "Lembrar-me" se estiver marcado
+    const rememberMe = localStorage.getItem('rememberMe');
+    if (rememberMe !== 'true') {
+        localStorage.removeItem('savedUsername');
+    }
     
+    // Esconder aviso se estiver visível
+    hideLogoutWarning();
+    
+    showNotification('Logout realizado com sucesso! Redirecionando...', 'success');
+    
+    // Redirecionar após um breve delay
     setTimeout(() => {
-        window.location.href = 'login.html';
-    }, 1000);
+        console.log('Redirecionando para login...');
+        
+        // Tentar diferentes caminhos para garantir que funcione
+        const currentPath = window.location.pathname;
+        console.log('Caminho atual:', currentPath);
+        
+        // Se estiver em /admin/dashboard.html, redirecionar para /admin/autenticacao.html
+        if (currentPath.includes('/admin/')) {
+            window.location.href = 'autenticacao.html';
+        } else {
+            // Tentar caminho relativo
+            window.location.href = 'autenticacao.html';
+        }
+    }, 1500);
 }
 
 // Notificação
@@ -434,7 +603,7 @@ function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
-        <span class="material-icons">${type === 'success' ? 'check_circle' : 'info'}</span>
+        <span class="material-icons">${type === 'success' ? 'check_circle' : type === 'warning' ? 'warning' : 'info'}</span>
         <span>${message}</span>
     `;
     
@@ -605,4 +774,3 @@ function initSearch() {
         searchInput.focus();
     }
 }
-
