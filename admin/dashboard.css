@@ -1364,3 +1364,123 @@ tr:hover {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Modal de aviso de inatividade */
+.inactivity-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.warning-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.warning-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #f39c12;
+}
+
+.warning-header .material-icons {
+    font-size: 2rem;
+}
+
+.warning-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.warning-body {
+    margin-bottom: 25px;
+}
+
+.warning-body p {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+#countdown {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.warning-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.warning-actions button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #027581;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #025a63;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Notificação de warning */
+.notification-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.notification-warning .material-icons {
+    color: #f39c12;
+}
