@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/img/favicon_login.ico" type="image/x-icon">
+    <!-- CORREÇÃO: Caminho do favicon -->
+    <link rel="icon" href="../img/favicon_login.ico" type="image/x-icon">
     <title>Área Administrativa - [JF Tur]</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -86,10 +87,10 @@ body,
   text-align: center;
 }
 
-/* Imagem decorativa */
+/* Imagem decorativa - CORREÇÃO APLICADA */
 .login-image {
   flex: 1;
-  background-image: url('/img/loginadmin_img.png');
+  background-image: url('../img/loginadmin_img.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -436,7 +437,8 @@ body,
         <div class="login-right">
             <div class="login-form-container" id="loginForm">
                 <div class="company-logo">
-                    <img src="/img/logo_jftur.webp" alt="Logo da Jerfesson Turismo" class="img-responsive">
+                    <!-- CORREÇÃO: Caminho da logo -->
+                    <img src="../img/logo_jftur.webp" alt="Logo da Jerfesson Turismo" class="img-responsive">
                 </div>
                 <!-- Formulário de login -->
                 <h2 class="login-title">Portal Administrativo</h2>
@@ -472,6 +474,17 @@ body,
         </div>
     </div>
     <script>
+        // Verificar se o usuário já está autenticado
+        function checkIfAlreadyLoggedIn() {
+            const token = localStorage.getItem('authToken');
+            const user = localStorage.getItem('currentUser');
+            
+            if (token && user) {
+                // Se já estiver logado, redirecionar para o dashboard
+                window.location.href = 'dashboard.html';
+            }
+        }
+
         // Função de ocultar/mostrar senha
         function togglePassword() {
             const passwordInput = document.getElementById('password');
@@ -488,6 +501,9 @@ body,
 
         // Sistema de autenticação
         document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se já está logado
+            checkIfAlreadyLoggedIn();
+            
             const loginBtn = document.getElementById('loginBtn');
             const usernameInput = document.getElementById('username');
             const passwordInput = document.getElementById('password');
@@ -552,9 +568,11 @@ body,
             setTimeout(() => {
                 if (username === validCredentials.username && password === validCredentials.password) {
                     // Salvar dados de autenticação
-                    localStorage.setItem('authToken', 'jftur-token-' + Date.now());
-                    localStorage.setItem('currentUser', 'Admin JF');
+                    const authToken = 'jftur-token-' + Date.now();
+                    localStorage.setItem('authToken', authToken);
+                    localStorage.setItem('currentUser', 'Admin');
                     localStorage.setItem('userRole', 'admin');
+                    localStorage.setItem('loginTime', new Date().toISOString());
                     
                     if (rememberMe) {
                         localStorage.setItem('rememberMe', 'true');
@@ -597,6 +615,21 @@ body,
                 }, 5000);
             }
         }
+
+        // Limpar dados de sessão ao carregar a página de login
+        // (mantém apenas o "Lembrar-me" se estiver marcado)
+        window.addEventListener('load', function() {
+            const rememberMe = localStorage.getItem('rememberMe');
+            if (rememberMe !== 'true') {
+                // Se não estiver marcado para lembrar, limpa o username salvo
+                localStorage.removeItem('savedUsername');
+            }
+            // Sempre remove o token e dados de sessão ao carregar a página de login
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('loginTime');
+        });
     </script>
 </body>
 </html>
