@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/favicon_admin.ico" type="image/x-icon">
+    <title>Sistema Administrativo - [JF Tur]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3 class="brand">
+                <span class="material-icons">flight</span>
+                <span>JF Turismo</span>
+            </h3>
+            <span class="material-icons" id="toggleSidebar">menu_open</span>
+        </div>
+        <!-- Menu -->
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="dashboard.html" class="active">
+                        <span class="material-icons">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gerenciar_pacotes.html">
+                        <span class="material-icons">card_travel</span>
+                        <span>Gerenciar Pacotes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gerenciar_reservas.html">
+                        <span class="material-icons">book_online</span>
+                        <span>Gerenciar Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="resultado.html">
+                        <span class="material-icons">bar_chart</span>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html">
+                        <span class="material-icons">settings</span>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="logoutLink">
+                        <span class="material-icons">logout</span>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <div class="user-greeting">
+                <div class="greeting-text">
+                    Olá, <span class="admin-name" id="adminName">Admin</span>!
+                </div>
+            </div>
+            
+            <div class="search-wrapper">
+                <span class="material-icons">search</span>
+                <input type="search" placeholder="Pesquisar clientes, pacotes, reservas..." id="searchInput">
+            </div>
+
+            <div class="social-icons">
+                <div class="notification-wrapper">
+                    <span class="material-icons" id="notificationIcon">notifications</span>
+                </div>
+                <div class="email-wrapper">
+                    <a href="mailto:admin@jfturismo.com?subject=Contato%20JF%20Turismo" class="email-link">
+                        <span class="material-icons">email</span>
+                    </a>
+                </div>
+                <div class="chat-wrapper">
+                    <span class="material-icons" id="chatIcon">mode_comment</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">
+                        <img src="https://ui-avatars.com/api/?name=Admin+JF&background=027581&color=fff&size=128" alt="Admin JF">
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large">
+                                <img src="https://ui-avatars.com/api/?name=Admin+JF&background=027581&color=fff&size=128" alt="Admin JF">
+                            </div>
+                            <div class="user-details">
+                                <h4 id="dropdownUserName">Admin JF</h4>
+                                <p>admin@jfturismo.com</p>
+                                <small>Administrador</small>
+                            </div>
+                        </div>
+                        <div class="user-menu">
+                            <a href="configuracoes.html" class="user-menu-item">
+                                <span class="material-icons">settings</span>
+                                <span>Configurações</span>
+                            </a>
+                            <a href="perfil.html" class="user-menu-item">
+                                <span class="material-icons">person</span>
+                                <span>Meu Perfil</span>
+                            </a>
+                            <div class="user-menu-divider"></div>
+                            <a href="#" class="user-menu-item" id="dropdownLogout">
+                                <span class="material-icons">logout</span>
+                                <span>Sair</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Dashboard Content -->
+        <main>
+            <h2 class="dash-title">Visão geral</h2>
+
+            <!-- Alertas -->
+            <div class="alerts-section">
+                <div class="alert-card urgent">
+                    <div class="alert-icon">
+                        <span class="material-icons">warning</span>
+                    </div>
+                    <div class="alert-content">
+                        <h4>Pacote com Baixa Ocupação</h4>
+                        <p>O pacote "Serra Gaúcha - Inverno" está com apenas 35% de ocupação para a data de 15/07.</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-small" id="adjustPriceBtn">Ajustar Preço</button>
+                        <button class="btn-small outline" id="promotePackageBtn">Promocionar</button>
+                    </div>
+                </div>
+                
+                <div class="alert-card info">
+                    <div class="alert-icon">
+                        <span class="material-icons">info</span>
+                    </div>
+                    <div class="alert-content">
+                        <h4>Alta Temporada Próxima</h4>
+                        <p>Férias de Verão se aproximam. Verifique disponibilidade de hotéis e voos.</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-small" id="checkAvailabilityBtn">Verificar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicador de Meta -->
+            <div class="goal-indicator">
+                <div class="goal-header">
+                    <h4>Meta de Vendas Mensal</h4>
+                    <span id="goalText">R$ 45.000 / R$ 60.000</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="goalProgress"></div>
+                    </div>
+                    <span class="progress-percent" id="goalPercent">75%</span>
+                </div>
+            </div>
+
+            <!-- Cards Principais -->
+            <div class="dashboard-cards">
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">people</span>
+                        <div>
+                            <h5>Usuários</h5>
+                            <h4 id="usersCount">200</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="gerenciar_usuarios.html">Ver todos <span class="material-icons">arrow_forward</span></a>
+                    </div>
+                </div>
+
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">card_travel</span>
+                        <div>
+                            <h5>Pacotes Vendidos</h5>
+                            <h4 id="packagesSold">320</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="gerenciar_pacotes.html">Ver detalhes <span class="material-icons">arrow_forward</span></a>
+                    </div>
+                </div>
+
+                <div class="card-single">
+                    <div class="card-body">
+                        <span class="material-icons">attach_money</span>
+                        <div>
+                            <h5>Receita Mensal</h5>
+                            <h4 id="monthlyRevenue">R$ 45.000</h4>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="resultado.html">Ver relatório <span class="material-icons">arrow_forward</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3>Receita por Mês (2025)</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>Destinos Mais Populares</h3>
+                    <div class="chart-container">
+                        <canvas id="destinationsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atividade Recente -->
+            <section class="recent">
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h3>Pacotes Mais Vendidos</h3>
+                            <div class="filter-options">
+                                <select id="timeFilter">
+                                    <option value="week">Esta Semana</option>
+                                    <option value="month" selected>Este Mês</option>
+                                    <option value="quarter">Este Trimestre</option>
+                                    <option value="year">Este Ano</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="topPackagesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Pacote</th>
+                                        <th>Destino</th>
+                                        <th>Vendas</th>
+                                        <th>Receita</th>
+                                        <th>Taxa de Ocupação</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dados serão preenchidos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="table-footer">
+                            <a href="gerenciar_pacotes.html" class="view-all-link">
+                                Ver todos os pacotes <span class="material-icons">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="summary">
+                        <div class="summary-card">
+                            <div class="summary-single">
+                                <span class="material-icons">contacts</span>
+                                <div>
+                                    <h5 id="clientsCount">196</h5>
+                                    <small>Número de clientes</small>
+                                </div>
+                            </div>
+                            <div class="summary-single">
+                                <span class="material-icons">calendar_month</span>
+                                <div>
+                                    <h5 id="travelDays">16</h5>
+                                    <small>Dias de viagem</small>
+                                </div>
+                            </div>
+                            <div class="summary-single">
+                                <span class="material-icons">feedback</span>
+                                <div>
+                                    <h5 id="positiveFeedbacks">55</h5>
+                                    <small>Feedbacks Positivos</small>
+                                </div>
+                            </div>
+                            <div class="summary-single">
+                                <span class="material-icons">trending_up</span>
+                                <div>
+                                    <h5 id="growthRate">12%</h5>
+                                    <small>Crescimento Mensal</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </section>
+
+            <!-- Aniversariantes -->
+            <div class="bday-section">
+                <h3 class="section-title">Aniversariantes do Mês</h3>
+                <div class="bday-grid">
+                    <div class="bday-card">
+                        <div class="bday-img">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="bday-info">
+                            <h5>Jefferson Santos</h5>
+                            <small>Aniversariando Hoje</small>
+                            <div class="admin-greeting">Parabéns!</div>
+                            <div class="bday-actions">
+                                <button class="btn-wish" data-user="Jefferson Santos">
+                                    <span class="material-icons">redeem</span>
+                                    Parabenizar
+                                </button>
+                                <button class="btn-wish outline" data-user="Jefferson Santos">
+                                    <span class="material-icons">celebration</span>
+                                    Comemorar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bday-card">
+                        <div class="bday-img">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="bday-info">
+                            <h5>Alan Gustavo</h5>
+                            <small>Aniversário em 2 dias</small>
+                            <div class="bday-actions">
+                                <button class="btn-wish outline" data-user="Alan Gustavo">
+                                    <span class="material-icons">schedule</span>
+                                    Lembrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bday-card">
+                        <div class="bday-img">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="bday-info">
+                            <h5>Luan Wesley</h5>
+                            <small>Aniversário em 10 dias</small>
+                            <div class="bday-actions">
+                                <button class="btn-wish outline" data-user="Luan Wesley">
+                                    <span class="material-icons">schedule</span>
+                                    Lembrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bday-card">
+                        <div class="bday-img">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="bday-info">
+                            <h5>Darllan</h5>
+                            <small>Aniversário em 15 dias</small>
+                            <div class="bday-actions">
+                                <button class="btn-wish outline" data-user="Darllan">
+                                    <span class="material-icons">schedule</span>
+                                    Lembrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bday-card">
+                        <div class="bday-img">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="bday-info">
+                            <h5>Álex Robert</h5>
+                            <small>Aniversário em 20 dias</small>
+                            <div class="bday-actions">
+                                <button class="btn-wish outline" data-user="Álex Robert">
+                                    <span class="material-icons">schedule</span>
+                                    Lembrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-modal-content">
+            <div class="chat-modal-header">
+                <div class="chat-user-info">
+                    <div class="chat-user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Suporte+JF&background=027581&color=fff" alt="Suporte JF">
+                    </div>
+                    <div class="chat-user-details">
+                        <h4>Suporte JF Turismo</h4>
+                        <small>Online</small>
+                    </div>
+                </div>
+                <div class="chat-modal-actions">
+                    <button class="btn-icon" id="minimizeChat">
+                        <span class="material-icons">minimize</span>
+                    </button>
+                    <button class="btn-icon" id="closeChat">
+                        <span class="material-icons">close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-modal-body">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message received">
+                        <div class="message-content">
+                            <p>Olá! Como posso ajudar você hoje?</p>
+                            <small>10:30</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-modal-footer">
+                <div class="chat-input">
+                    <input type="text" placeholder="Digite sua mensagem..." id="chatMessageInput">
+                    <button class="btn-icon" id="sendMessage">
+                        <span class="material-icons">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,77 +1,333 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Viagens - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f1f1f1;
-        }
-        header {
-            background-color: #3498db;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        .search-form {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .search-form input, .search-form select, .search-form button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .search-form button {
-            background-color: #ff9f00;
-            color: white;
-            border: none;
-        }
-        .promo-section {
-            margin-top: 50px;
-            text-align: center;
-        }
-        .promo-section img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva e Pagamento — JF Tur</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #007bff, #1900ff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      background: #fff;
+      margin: 40px auto;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #004aad;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .passageiros {
+      margin-top: 20px;
+    }
+
+    .passageiro-card {
+      background: #eef4ff;
+      border: 1px solid #c9daf8;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .assentos {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .assento {
+      width: 40px;
+      height: 40px;
+      background: #cce0ff;
+      border: none;
+      margin: 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .assento.selecionado {
+      background: #004aad;
+      color: white;
+    }
+
+    .btn-continuar {
+      display: block;
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      font-size: 16px;
+      background: #004aad;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-continuar:hover {
+      background: #003080;
+    }
+
+    /* PAGAMENTO */
+    .form-section { display: none; margin-top: 15px; }
+    .form-section.active { display: block; }
+
+    .pag-options {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      margin: 10px 0 18px;
+    }
+
+    .pag-options label {
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pix-box { text-align: center; margin-top: 8px; }
+    .pix-code {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: #f6f8fb;
+      font-family: monospace;
+    }
+    button.main {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button.main:hover { background: #0056b3; }
+
+    #resultado {
+      margin-top: 16px;
+      text-align: center;
+      font-weight: bold;
+      color: green;
+    }
+
+    a.boleto-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Reserva de Viagem - JF Tur</h2>
 
-<header>
-    <h1>Reserve sua Viagem</h1>
-</header>
+    <label for="numPassageiros">Quantidade de passageiros:</label>
+    <input type="number" id="numPassageiros" min="1" max="50" value="1">
+    <button onclick="gerarCampos()">Gerar Campos</button>
 
-<div class="search-form">
-    <h2>Encontre seu Destino</h2>
-    <input type="text" placeholder="Onde você quer viajar?" />
-    <select>
-        <option value="aventura">Aventura</option>
-        <option value="relaxamento">Relaxamento</option>
-        <option value="cultura">Cultura</option>
-    </select>
-    <input type="date" />
-    <button>Buscar Destinos</button>
-</div>
+    <div class="passageiros" id="passageiros"></div>
 
-<div class="promo-section">
-    <h2>Promoções</h2>
-    <img src="images\promo-image.jpg" alt="Promoção de Viagem" />
-</div>
+    <div class="assentos">
+      <h3>Escolha seus assentos:</h3>
+      <div id="mapaAssentos"></div>
+    </div>
 
+    <button class="btn-continuar" onclick="mostrarPagamento()">Continuar para o Pagamento</button>
+
+    <!-- ÁREA DE PAGAMENTO -->
+    <div id="area-pagamento" style="display:none; margin-top:30px;">
+      <h2>Pagamento — JF TUR</h2>
+
+      <label for="valor">Valor da Viagem (R$)</label>
+      <input id="valor" type="number" step="0.01" placeholder="Ex: 350.00" min="0">
+
+      <label>Forma de Pagamento</label>
+      <div class="pag-options">
+        <label><input type="radio" name="pag" value="cartao" checked> Cartão</label>
+        <label><input type="radio" name="pag" value="pix"> Pix</label>
+        <label><input type="radio" name="pag" value="boleto"> Boleto</label>
+      </div>
+
+      <!-- CARTÃO -->
+      <div id="sec-cartao" class="form-section active">
+        <label>Número do Cartão</label>
+        <input type="tel" placeholder="0000 0000 0000 0000" maxlength="19">
+        <label>Nome do Titular</label>
+        <input type="text" placeholder="NOME SOBRENOME">
+
+        <div class="row">
+          <label>Mês de Validade</label>
+          <select id="mes-validade" required>
+            <option value="">MM</option>
+            <option>01</option><option>02</option><option>03</option><option>04</option>
+            <option>05</option><option>06</option><option>07</option><option>08</option>
+            <option>09</option><option>10</option><option>11</option><option>12</option>
+          </select>
+
+          <label>Ano de Validade</label>
+          <select id="ano-validade" required></select>
+
+          <label>CVV</label>
+          <input type="password" maxlength="4" placeholder="***" required>
+        </div>
+        <button id="btn-cartao" class="main">Pagar com Cartão</button>
+      </div>
+
+      <!-- PIX -->
+      <div id="sec-pix" class="form-section">
+        <label>Nome da Pessoa</label>
+        <input id="pix-nome" type="text" placeholder="Digite seu nome completo" required>
+
+        <label>CPF/CNPJ</label>
+        <input id="pix-cpf" type="text" placeholder="000.000.000-00" maxlength="18" required>
+
+        <div class="pix-box">
+          <p>Escaneie o QR Code abaixo para realizar o pagamento:</p>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?data=jeffersonturismo02@gmail.com&size=150x150" alt="QR Code Pix">
+          <small style="display:block; color:gray; font-size:0.85em; margin-top:4px;">
+            *Imagem ilustrativa – QR Code de exemplo para fins educacionais.
+          </small>
+          <div class="pix-code">jeffersonturismo02@gmail.com</div>
+          <div class="pix-email">
+            <strong>Nome do recebedor:</strong> Jerferson do Nascimento Silva<br>
+            <strong>Banco:</strong> Santander
+          </div>
+        </div>
+        <button id="btn-pix" class="main">Confirmar Pagamento Pix</button>
+      </div>
+
+      <!-- BOLETO -->
+      <div id="sec-boleto" class="form-section">
+        <p>Informe seus dados para gerar o boleto:</p>
+        <label>Nome Completo</label>
+        <input id="boleto-nome" type="text" placeholder="Digite seu nome completo" required>
+
+        <label>CPF</label>
+        <input id="boleto-cpf" type="text" placeholder="000.000.000-00" maxlength="14" required>
+
+        <button id="btn-boleto" class="main">Gerar Boleto</button>
+
+        <div id="boleto-info" style="display:none; margin-top:12px; text-align:center;">
+          <p><strong>Boleto gerado com sucesso!</strong></p>
+          <a href="#" class="boleto-link">Clique aqui para baixar o boleto</a>
+        </div>
+      </div>
+
+      <div id="resultado"></div>
+    </div>
+  </div>
+
+  <script>
+    // Gerar campos de passageiros
+    function gerarCampos() {
+      const num = document.getElementById('numPassageiros').value;
+      const container = document.getElementById('passageiros');
+      container.innerHTML = '';
+      for (let i = 1; i <= num; i++) {
+        container.innerHTML += `
+          <div class="passageiro-card">
+            <h4>Passageiro ${i}</h4>
+            <label>Nome:</label>
+            <input type="text" placeholder="Digite o nome completo" required>
+            <label>Idade:</label>
+            <input type="number" placeholder="Idade" required>
+            <label>Tipo de passageiro:</label>
+            <select>
+              <option value="crianca">Criança (0-11)</option>
+              <option value="adolescente">Adolescente (12-17)</option>
+              <option value="adulto">Adulto (18-59)</option>
+              <option value="idoso">Idoso (60+)</option>
+            </select>
+          </div>
+        `;
+      }
+    }
+
+    // Criar mapa de assentos
+    const mapaAssentos = document.getElementById('mapaAssentos');
+    for (let i = 1; i <= 50; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.className = 'assento';
+      btn.onclick = () => btn.classList.toggle('selecionado');
+      mapaAssentos.appendChild(btn);
+      if (i % 4 === 0) mapaAssentos.appendChild(document.createElement('br'));
+    }
+
+    function mostrarPagamento() {
+      document.getElementById('area-pagamento').style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Popula anos de validade
+    (function popularAnos() {
+      const select = document.getElementById('ano-validade');
+      const atual = new Date().getFullYear();
+      for (let i = 0; i <= 10; i++) {
+        const ano = atual + i;
+        const opt = document.createElement('option');
+        opt.value = ano;
+        opt.textContent = ano;
+        select.appendChild(opt);
+      }
+    })();
+
+    // Alternar seções de pagamento
+    const radios = document.querySelectorAll('input[name="pag"]');
+    const secoes = document.querySelectorAll('.form-section');
+    radios.forEach(radio => {
+      radio.addEventListener('change', e => {
+        secoes.forEach(sec => sec.classList.remove('active'));
+        document.querySelector('#sec-' + e.target.value).classList.add('active');
+        document.getElementById('resultado').textContent = '';
+      });
+    });
+
+    // Botões
+    document.getElementById('btn-cartao').addEventListener('click', ()=>{
+      document.getElementById('resultado').textContent = 'Pagamento com cartão processado!';
+    });
+
+    document.getElementById('btn-pix').addEventListener('click', ()=>{
+      document.getElementById('resultado').textContent = 'Pagamento Pix confirmado!';
+    });
+
+    document.getElementById('btn-boleto').addEventListener('click', ()=>{
+      document.getElementById('boleto-info').style.display = 'block';
+      document.getElementById('resultado').textContent = 'Boleto gerado com sucesso!';
+    });
+  </script>
 </body>
 </html>

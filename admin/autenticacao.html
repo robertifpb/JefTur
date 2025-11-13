@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/img/favicon_client.ico" type="image/x-icon">
-    <title>Portal do Cliente - JF Turismo</title>
+    <link rel="icon" href="/img/favicon_login.ico" type="image/x-icon">
+    <title>Área Administrativa - [JF Tur]</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -89,7 +89,7 @@ body,
 /* Imagem decorativa */
 .login-image {
   flex: 1;
-  background-image: url('/img/login_img.webp');
+  background-image: url('/img/loginadmin_img.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -337,6 +337,29 @@ body,
     background-color: var(--background-color);
 }
 
+/* Estilos para mensagens de login */
+.login-error {
+    background: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #fcc;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.login-success {
+    background: #efe;
+    color: #363;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #cfc;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 /* Responsividade */
 @media (max-width: 900px) {
     .login-container {
@@ -382,8 +405,7 @@ body,
         <!-- Lado esquerdo -->
         <div class="login-left">
             <div class="welcome-text">
-                <p class="welcome-subtitle">Olá, bem-vindo ao</p>
-                <h1 class="welcome-title">Portal do Cliente</h1>
+                <h1 class="welcome-title">Portal Administrativo</h1>
             </div>
             <!-- Imagem de boas vindas -->
             <div class="login-image"></div>
@@ -412,19 +434,19 @@ body,
         </div>
         <!-- Lado direito-->
         <div class="login-right">
-            <div class="login-form-container">
+            <div class="login-form-container" id="loginForm">
                 <div class="company-logo">
                     <img src="/img/logo_jftur.webp" alt="Logo da Jerfesson Turismo" class="img-responsive">
                 </div>
                 <!-- Formulário de login -->
-                <h2 class="login-title">Portal do Cliente</h2>
-                <p class="login-subtitle">Faça seu login para continuar!</p>
+                <h2 class="login-title">Portal Administrativo</h2>
+                <p class="login-subtitle">Faça seu login para acessar o sistema!</p>
                 <!-- Campo de e-mail -->
                 <div class="form-group floating">
                     <div class="input-group">
-                        <input type="email" id="email" class="form-input" placeholder="" required>
-                        <label for="email">E-mail</label>
-                        <i class="material-icons form-icon">email</i>
+                        <input type="text" id="username" class="form-input" placeholder="" required>
+                        <label for="username">Usuário</label>
+                        <i class="material-icons form-icon">person</i>
                     </div>          
                 </div>
                 <!-- Campo de senha -->
@@ -444,7 +466,7 @@ body,
                     <label for="remember-me" class="remember-me-label">Lembrar-me</label> 
                 </div>
                 <!-- Botão de login e link de senha esquecida -->
-                <button type="submit" class="btn">Entrar</button>  
+                <button type="submit" class="btn" id="loginBtn">Entrar</button>  
                 <a href="#" class="forgot-password-link">Esqueceu sua senha?</a>
             </div>
         </div>
@@ -464,6 +486,117 @@ body,
             }
         }
 
+        // Sistema de autenticação
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('loginBtn');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const rememberMe = document.getElementById('remember-me');
+
+            // Verificar se já existe um login lembrado
+            checkRememberedLogin();
+
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+
+            // Permitir login com Enter
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+        });
+
+        function checkRememberedLogin() {
+            const remembered = localStorage.getItem('rememberMe');
+            if (remembered === 'true') {
+                const savedUser = localStorage.getItem('savedUsername');
+                if (savedUser) {
+                    document.getElementById('username').value = savedUser;
+                    document.getElementById('remember-me').checked = true;
+                }
+            }
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+
+            // Validação básica
+            if (!username || !password) {
+                showLoginMessage('Por favor, preencha todos os campos', 'error');
+                return;
+            }
+
+            // Autenticação
+            authenticateUser(username, password, rememberMe);
+        }
+
+        function authenticateUser(username, password, rememberMe) {
+            // Credenciais fixas para demonstração
+            const validCredentials = {
+                username: 'admin',
+                password: 'admin123'
+            };
+
+            // Simular delay de rede
+            setTimeout(() => {
+                if (username === validCredentials.username && password === validCredentials.password) {
+                    // Salvar dados de autenticação
+                    localStorage.setItem('authToken', 'jftur-token-' + Date.now());
+                    localStorage.setItem('currentUser', 'Admin JF');
+                    localStorage.setItem('userRole', 'admin');
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('rememberMe', 'true');
+                        localStorage.setItem('savedUsername', username);
+                    } else {
+                        localStorage.removeItem('rememberMe');
+                        localStorage.removeItem('savedUsername');
+                    }
+
+                    showLoginMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                    
+                    // Redirecionar para o dashboard após 1.5 segundos
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    showLoginMessage('Usuário ou senha inválidos', 'error');
+                }
+            }, 800); // Simular delay de rede
+        }
+
+        function showLoginMessage(message, type) {
+            // Remover mensagens anteriores
+            const existingMessage = document.querySelector('.login-error, .login-success');
+            if (existingMessage) existingMessage.remove();
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'login-error' : 'login-success';
+            messageDiv.textContent = message;
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.parentElement.insertBefore(messageDiv, loginBtn);
+
+            // Auto-remover após 5 segundos para mensagens de erro
+            if (type === 'error') {
+                setTimeout(() => {
+                    if (messageDiv.parentElement) {
+                        messageDiv.remove();
+                    }
+                }, 5000);
+            }
+        }
     </script>
 </body>
 </html>

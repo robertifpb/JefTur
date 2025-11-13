@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados - Reserva de Viagens</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    header {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+
+    .result-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .top-bar h2 {
+      margin: 0;
+      color: #003366;
+    }
+
+    .back-btn {
+      background-color: #003366;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background-color 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #00264d;
+    }
+
+    .destination-card {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .destination-card:hover {
+      transform: scale(1.02);
+    }
+
+    .destination-card img {
+      width: 230px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .details {
+      flex: 1;
+    }
+
+    .details h3 {
+      font-size: 1.4em;
+      color: #003366;
+      margin-bottom: 8px;
+    }
+
+    .details p {
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .details button {
+      background-color: #ffb800;
+      border: none;
+      color: #003366;
+      font-weight: bold;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .details button:hover {
+      background-color: #ffd34e;
+    }
+
+    @media (max-width: 768px) {
+      .destination-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .destination-card img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Resultados da Busca</h1>
+  </header>
+
+  <div class="result-container">
+    <div class="top-bar">
+      <h2>Destinos Encontrados</h2>
+      <button class="back-btn" onclick="window.location.href='index.html'">⬅ Voltar à Página Inicial</button>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/chapada_image.jpg" alt="Chapada dos Veadeiros" />
+      <div class="details">
+        <h3>Chapada dos Veadeiros</h3>
+        <p>Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!</p>
+        <button onclick="window.location.href='detalhes.html?destino=chapada'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/rio_imagem.jpg" alt="Rio de Janeiro">
+      <div class="details">
+        <h3>Rio de Janeiro</h3>
+        <p>Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.</p>
+        <button onclick="window.location.href='detalhes.html?destino=rio'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/salvador.jpg" alt="Salvador">
+      <div class="details">
+        <h3>Salvador</h3>
+        <p>Conheça a rica história, a música e a culinária única de Salvador.</p>
+        <button onclick="window.location.href='detalhes.html?destino=salvador'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/florianopolis.jpg" alt="Florianópolis">
+      <div class="details">
+        <h3>Florianópolis</h3>
+        <p>Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.</p>
+        <button onclick="window.location.href='detalhes.html?destino=florianopolis'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/fortaleza.jpg" alt="Fortaleza">
+      <div class="details">
+        <h3>Fortaleza</h3>
+        <p>Descubra as praias de areia branca e a cultura vibrante de Fortaleza.</p>
+        <button onclick="window.location.href='detalhes.html?destino=fortaleza'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/gramado.jpg" alt="Gramado">
+      <div class="details">
+        <h3>Gramado</h3>
+        <p>Desfrute do charme europeu, gastronomia e eventos culturais em Gramado.</p>
+        <button onclick="window.location.href='detalhes.html?destino=gramado'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/recife.jpg" alt="Recife">
+      <div class="details">
+        <h3>Recife</h3>
+        <p>Explore a rica história, cultura e praias urbanas de Recife.</p>
+        <button onclick="window.location.href='detalhes.html?destino=recife'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/curitiba.jpg" alt="Curitiba">
+      <div class="details">
+        <h3>Curitiba</h3>
+        <p>Conheça os parques, a arquitetura moderna e a cultura diversificada de Curitiba.</p>
+        <button onclick="window.location.href='detalhes.html?destino=curitiba'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/bahia.jpg" alt="Bahia">
+      <div class="details">
+        <h3>Bahia</h3>
+        <p>Viva a energia contagiante da Bahia, com suas festas, culinária e praias incríveis.</p>
+        <button onclick="window.location.href='detalhes.html?destino=bahia'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/manaus.jpg" alt="Manaus">
+      <div class="details">
+        <h3>Manaus</h3>
+        <p>Explore a Amazônia a partir de Manaus, com sua rica biodiversidade e cultura única.</p>
+        <button onclick="window.location.href='detalhes.html?destino=manaus'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/porto_seguro.jpg" alt="Porto Seguro">
+      <div class="details">
+        <h3>Porto Seguro</h3>
+        <p>Desfrute das praias paradisíacas e da vida noturna animada de Porto Seguro.</p>
+        <button onclick="window.location.href='detalhes.html?destino=porto_seguro'">Ver Detalhes</button>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <img src="images/caldas_novas.jpg" alt="Caldas Novas">
+      <div class="details">
+        <h3>Caldas Novas</h3>
+        <p>Relaxe nas águas termais e aproveite os parques aquáticos de Caldas Novas.</p>
+        <button onclick="window.location.href='detalhes.html?destino=caldas_novas'">Ver Detalhes</button>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
