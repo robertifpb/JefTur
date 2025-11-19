@@ -588,12 +588,12 @@ function handleLogout() {
         const currentPath = window.location.pathname;
         console.log('Caminho atual:', currentPath);
         
-        // Se estiver em /admin/dashboard.html, redirecionar para /admin/autenticacao.html
+        // Se estiver em /admin/dashboard.html, redirecionar para /admin/login.html
         if (currentPath.includes('/admin/')) {
-            window.location.href = 'autenticacao.html';
+            window.location.href = 'login.html';
         } else {
             // Tentar caminho relativo
-            window.location.href = 'autenticacao.html';
+            window.location.href = 'login.html';
         }
     }, 1500);
 }
