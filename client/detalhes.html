@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,6 +117,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -138,12 +140,12 @@
     const urlParams = new URLSearchParams(window.location.search);
     const destino = urlParams.get('destino'); // Recupera o destino da URL
 
-    // Dados simulados para as viagens (substitua por dados reais se necessário)
+    // Dados simulados para as viagens 
     const destinos = {
       rio: {
         nome: "Rio de Janeiro",
         descricao: "Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.",
-        imagem: "images/rio_imagem.jpg",
+        imagem: "img/rio_imagem.jpg",
         preco: "R$ 900",
         pacote: "Pacote Praia e Cristo - 3 dias",
         pacotePremium: "Pacote Completo (Hotel + Passeios) - 5 dias",
@@ -198,7 +200,7 @@
             <p class="price">Preço: ${viagem.preco}</p>
             <p class="package">${viagem.pacote}</p>
             <p class="package">${viagem.pacotePremium}</p>
-            <button class="reserve-btn">Reservar Agora</button>
+            <a href="pagamento.html" class="reserve-btn">Reservar Agora</a>
           </div>
         `;
       } else {
@@ -214,4 +216,5 @@
     }
   </script>
 </body>
+
 </html>
