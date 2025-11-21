@@ -1,257 +1,780 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados de Reservas - [JF Tur]</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinos - JF Turismo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      background-color: #f1f1f1;
-      color: #333;
-    }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-    header {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    header h1 {
-      margin: 0;
-      font-size: 1.8em;
-    }
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #027581 0%, #025e68 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    .result-container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: white;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
 
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
-    .top-bar h2 {
-      margin: 0;
-      color: #003366;
-    }
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    .back-btn {
-      background-color: #003366;
-      border: none;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.95em;
-      transition: background-color 0.3s;
-    }
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #e0f7fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .back-btn:hover {
-      background-color: #00264d;
-    }
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
 
-    .destination-card {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 20px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease;
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
 
-    .destination-card:hover {
-      transform: scale(1.02);
-    }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
 
-    .destination-card img {
-      width: 230px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
 
-    .details {
-      flex: 1;
-    }
+        .top-bar h2 {
+            color: #027581;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
 
-    .details h3 {
-      font-size: 1.4em;
-      color: #003366;
-      margin-bottom: 8px;
-    }
+        .back-btn {
+            background: #027581;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .details p {
-      color: #555;
-      margin-bottom: 10px;
-    }
+        .back-btn:hover {
+            background: #025e68;
+        }
 
-    .details button {
-      background-color: #ffb800;
-      border: none;
-      color: #003366;
-      font-weight: bold;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-    }
+        /* Destinations Grid */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
 
-    .details button:hover {
-      background-color: #ffd34e;
-    }
+        .destination-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-    @media (max-width: 768px) {
-      .destination-card {
-        flex-direction: column;
-        text-align: center;
-      }
+        .destination-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
 
-      .destination-card img {
-        width: 100%;
-        height: auto;
-      }
-    }
-  </style>
+        .destination-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .destination-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .details {
+            padding: 1.5rem;
+        }
+
+        .details h3 {
+            color: #027581;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .details p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .details button {
+            background: #027581;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .details button:hover {
+            background: #025e68;
+            transform: translateY(-2px);
+        }
+
+        /* Price Tag */
+        .price-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+        }
+
+        .rating-value {
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: #027581;
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: #e0f7fa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #e0f7fa;
+        }
+
+        /* Search and Filter */
+        .search-filter {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .filter-select {
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            min-width: 200px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Header -->
+    <header>
+        <div class="navbar container">
+            <div class="logo">
+                <div class="logo-placeholder">
+                    <i class="fas fa-plane" style="color: #027581; font-size: 1.5rem;"></i>
+                </div>
+                <span class="logo-text">JF Turismo</span>
+            </div>
+            <nav>
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="resultados.html" class="active">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Destinos</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contato</span>
+                </a>
+                <a href="acesso.html">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Área do Cliente</span>
+                </a>
+                <a href="/admin/login.html">
+                    <i class="fas fa-lock"></i>
+                    <span>Acesso Restrito</span>
+                </a>
+            </nav>
+        </div>
+    </header>
 
-  <header>
-    <h1>Resultados da Busca</h1>
-  </header>
-
-  <div class="result-container">
+    <!-- Top Bar -->
     <div class="top-bar">
-      <h2>Destinos Encontrados</h2>
-      <button class="back-btn" onclick="window.location.href='index.html'">⬅ Voltar à Página Inicial</button>
+        <div class="container">
+            <h2>Destinos Encontrados</h2>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                Voltar à Página Inicial
+            </button>
+        </div>
     </div>
 
-    <div class="destination-card">
-      <img src="images/chapada_image.jpg" alt="Chapada dos Veadeiros" />
-      <div class="details">
-        <h3>Chapada dos Veadeiros</h3>
-        <p>Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!</p>
-        <button onclick="window.location.href='detalhes.html?destino=chapada'">Ver Detalhes</button>
-      </div>
+    <!-- Search and Filter -->
+    <div class="container">
+        <div class="search-filter">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar destinos...">
+            </div>
+            <select class="filter-select" id="priceFilter">
+                <option value="">Todos os preços</option>
+                <option value="0-1000">Até R$ 1.000</option>
+                <option value="1000-2000">R$ 1.000 - R$ 2.000</option>
+                <option value="2000-5000">R$ 2.000 - R$ 5.000</option>
+                <option value="5000+">Acima de R$ 5.000</option>
+            </select>
+            <select class="filter-select" id="regionFilter">
+                <option value="">Todas as regiões</option>
+                <option value="norte">Norte</option>
+                <option value="nordeste">Nordeste</option>
+                <option value="centro-oeste">Centro-Oeste</option>
+                <option value="sudeste">Sudeste</option>
+                <option value="sul">Sul</option>
+            </select>
+        </div>
+
+        <!-- Grid de destinos -->
+        <div class="destinations-grid">
+            <!-- Chapada dos Veadeiros -->
+            <div class="destination-card" data-price="1200" data-region="centro-oeste">
+                <div class="price-tag">A partir de R$ 1.200</div>
+                <img src="https://images.unsplash.com/photo-1587334894133-b4d0c6c466a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Chapada dos Veadeiros">
+                <div class="details">
+                    <h3>Chapada dos Veadeiros</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.5</span>
+                    </div>
+                    <p>Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!</p>
+                    <button onclick="window.location.href='detalhes.html?destino=chapada'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Rio de Janeiro -->
+            <div class="destination-card" data-price="800" data-region="sudeste">
+                <div class="price-tag">A partir de R$ 800</div>
+                <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Rio de Janeiro">
+                <div class="details">
+                    <h3>Rio de Janeiro</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-value">5.0</span>
+                    </div>
+                    <p>Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=rio'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Salvador -->
+            <div class="destination-card" data-price="950" data-region="nordeste">
+                <div class="price-tag">A partir de R$ 950</div>
+                <img src="https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Salvador">
+                <div class="details">
+                    <h3>Salvador</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.8</span>
+                    </div>
+                    <p>Conheça a rica história, a música e a culinária única de Salvador.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=salvador'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Florianópolis -->
+            <div class="destination-card" data-price="1100" data-region="sul">
+                <div class="price-tag">A partir de R$ 1.100</div>
+                <img src="https://images.unsplash.com/photo-1516306580123-e6e52b1b7b5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Florianópolis">
+                <div class="details">
+                    <h3>Florianópolis</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.6</span>
+                    </div>
+                    <p>Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=florianopolis'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Fortaleza -->
+            <div class="destination-card" data-price="750" data-region="nordeste">
+                <div class="price-tag">A partir de R$ 750</div>
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Fortaleza">
+                <div class="details">
+                    <h3>Fortaleza</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.2</span>
+                    </div>
+                    <p>Descubra as praias de areia branca e a cultura vibrante de Fortaleza.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=fortaleza'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Gramado -->
+            <div class="destination-card" data-price="1500" data-region="sul">
+                <div class="price-tag">A partir de R$ 1.500</div>
+                <img src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gramado">
+                <div class="details">
+                    <h3>Gramado</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.9</span>
+                    </div>
+                    <p>Desfrute do charme europeu, gastronomia e eventos culturais em Gramado.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=gramado'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Recife -->
+            <div class="destination-card" data-price="850" data-region="nordeste">
+                <div class="price-tag">A partir de R$ 850</div>
+                <img src="https://images.unsplash.com/photo-1587334894133-b4d0c6c466a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Recife">
+                <div class="details">
+                    <h3>Recife</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.1</span>
+                    </div>
+                    <p>Explore a rica história, cultura e praias urbanas de Recife.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=recife'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Curitiba -->
+            <div class="destination-card" data-price="700" data-region="sul">
+                <div class="price-tag">A partir de R$ 700</div>
+                <img src="https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Curitiba">
+                <div class="details">
+                    <h3>Curitiba</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.4</span>
+                    </div>
+                    <p>Conheça os parques, a arquitetura moderna e a cultura diversificada de Curitiba.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=curitiba'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Bahia -->
+            <div class="destination-card" data-price="900" data-region="nordeste">
+                <div class="price-tag">A partir de R$ 900</div>
+                <img src="https://images.unsplash.com/photo-1516306580123-e6e52b1b7b5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Bahia">
+                <div class="details">
+                    <h3>Bahia</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.7</span>
+                    </div>
+                    <p>Viva a energia contagiante da Bahia, com suas festas, culinária e praias incríveis.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=bahia'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Manaus -->
+            <div class="destination-card" data-price="1300" data-region="norte">
+                <div class="price-tag">A partir de R$ 1.300</div>
+                <img src="https://images.unsplash.com/photo-1587334894133-b4d0c6c466a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Manaus">
+                <div class="details">
+                    <h3>Manaus</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.3</span>
+                    </div>
+                    <p>Explore a Amazônia a partir de Manaus, com sua rica biodiversidade e cultura única.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=manaus'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Porto Seguro -->
+            <div class="destination-card" data-price="1000" data-region="nordeste">
+                <div class="price-tag">A partir de R$ 1.000</div>
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Porto Seguro">
+                <div class="details">
+                    <h3>Porto Seguro</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.5</span>
+                    </div>
+                    <p>Desfrute das praias paradisíacas e da vida noturna animada de Porto Seguro.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=porto_seguro'">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <!-- Caldas Novas -->
+            <div class="destination-card" data-price="650" data-region="centro-oeste">
+                <div class="price-tag">A partir de R$ 650</div>
+                <img src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Caldas Novas">
+                <div class="details">
+                    <h3>Caldas Novas</h3>
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-value">4.8</span>
+                    </div>
+                    <p>Relaxe nas águas termais e aproveite os parques aquáticos de Caldas Novas.</p>
+                    <button onclick="window.location.href='detalhes.html?destino=caldas_novas'">Ver Detalhes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="destination-card">
-      <img src="images/rio_imagem.jpg" alt="Rio de Janeiro">
-      <div class="details">
-        <h3>Rio de Janeiro</h3>
-        <p>Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.</p>
-        <button onclick="window.location.href='detalhes.html?destino=rio'">Ver Detalhes</button>
-      </div>
-    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>JF Turismo</h3>
+                    <p>Sua agência de viagens de confiança, levando você aos melhores destinos com segurança e qualidade.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resultados.html">Destinos</a></li>
+                        <li><a href="#">Pacotes Promocionais</a></li>
+                        <li><a href="#">Aventuras</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rua das Viagens, 123 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@jfturismo.com</li>
+                        <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 JF Turismo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-    <div class="destination-card">
-      <img src="images/salvador.jpg" alt="Salvador">
-      <div class="details">
-        <h3>Salvador</h3>
-        <p>Conheça a rica história, a música e a culinária única de Salvador.</p>
-        <button onclick="window.location.href='detalhes.html?destino=salvador'">Ver Detalhes</button>
-      </div>
-    </div>
+    <script>
+        // Filtros e busca
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const priceFilter = document.getElementById('priceFilter');
+            const regionFilter = document.getElementById('regionFilter');
+            const destinationCards = document.querySelectorAll('.destination-card');
 
-    <div class="destination-card">
-      <img src="images/florianopolis.jpg" alt="Florianópolis">
-      <div class="details">
-        <h3>Florianópolis</h3>
-        <p>Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.</p>
-        <button onclick="window.location.href='detalhes.html?destino=florianopolis'">Ver Detalhes</button>
-      </div>
-    </div>
+            function filterDestinations() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const priceRange = priceFilter.value;
+                const region = regionFilter.value;
 
-    <div class="destination-card">
-      <img src="images/fortaleza.jpg" alt="Fortaleza">
-      <div class="details">
-        <h3>Fortaleza</h3>
-        <p>Descubra as praias de areia branca e a cultura vibrante de Fortaleza.</p>
-        <button onclick="window.location.href='detalhes.html?destino=fortaleza'">Ver Detalhes</button>
-      </div>
-    </div>
+                destinationCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const price = parseInt(card.dataset.price);
+                    const cardRegion = card.dataset.region;
 
-    <div class="destination-card">
-      <img src="images/gramado.jpg" alt="Gramado">
-      <div class="details">
-        <h3>Gramado</h3>
-        <p>Desfrute do charme europeu, gastronomia e eventos culturais em Gramado.</p>
-        <button onclick="window.location.href='detalhes.html?destino=gramado'">Ver Detalhes</button>
-      </div>
-    </div>
+                    const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                    const matchesPrice = !priceRange || (
+                        priceRange === '0-1000' && price <= 1000 ||
+                        priceRange === '1000-2000' && price > 1000 && price <= 2000 ||
+                        priceRange === '2000-5000' && price > 2000 && price <= 5000 ||
+                        priceRange === '5000+' && price > 5000
+                    );
+                    const matchesRegion = !region || cardRegion === region;
 
-    <div class="destination-card">
-      <img src="images/recife.jpg" alt="Recife">
-      <div class="details">
-        <h3>Recife</h3>
-        <p>Explore a rica história, cultura e praias urbanas de Recife.</p>
-        <button onclick="window.location.href='detalhes.html?destino=recife'">Ver Detalhes</button>
-      </div>
-    </div>
+                    if (matchesSearch && matchesPrice && matchesRegion) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
 
-    <div class="destination-card">
-      <img src="images/curitiba.jpg" alt="Curitiba">
-      <div class="details">
-        <h3>Curitiba</h3>
-        <p>Conheça os parques, a arquitetura moderna e a cultura diversificada de Curitiba.</p>
-        <button onclick="window.location.href='detalhes.html?destino=curitiba'">Ver Detalhes</button>
-      </div>
-    </div>
-
-    <div class="destination-card">
-      <img src="images/bahia.jpg" alt="Bahia">
-      <div class="details">
-        <h3>Bahia</h3>
-        <p>Viva a energia contagiante da Bahia, com suas festas, culinária e praias incríveis.</p>
-        <button onclick="window.location.href='detalhes.html?destino=bahia'">Ver Detalhes</button>
-      </div>
-    </div>
-
-    <div class="destination-card">
-      <img src="images/manaus.jpg" alt="Manaus">
-      <div class="details">
-        <h3>Manaus</h3>
-        <p>Explore a Amazônia a partir de Manaus, com sua rica biodiversidade e cultura única.</p>
-        <button onclick="window.location.href='detalhes.html?destino=manaus'">Ver Detalhes</button>
-      </div>
-    </div>
-
-    <div class="destination-card">
-      <img src="images/porto_seguro.jpg" alt="Porto Seguro">
-      <div class="details">
-        <h3>Porto Seguro</h3>
-        <p>Desfrute das praias paradisíacas e da vida noturna animada de Porto Seguro.</p>
-        <button onclick="window.location.href='detalhes.html?destino=porto_seguro'">Ver Detalhes</button>
-      </div>
-    </div>
-
-    <div class="destination-card">
-      <img src="images/caldas_novas.jpg" alt="Caldas Novas">
-      <div class="details">
-        <h3>Caldas Novas</h3>
-        <p>Relaxe nas águas termais e aproveite os parques aquáticos de Caldas Novas.</p>
-        <button onclick="window.location.href='detalhes.html?destino=caldas_novas'">Ver Detalhes</button>
-      </div>
-    </div>
-
-  </div>
+            searchInput.addEventListener('input', filterDestinations);
+            priceFilter.addEventListener('change', filterDestinations);
+            regionFilter.addEventListener('change', filterDestinations);
+        });
+    </script>
 </body>
 </html>
