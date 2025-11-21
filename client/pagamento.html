@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reserva e Pagamento — JF Tur</title>
+  <title>Reserva e Pagamento - [JF Tur]</title>
 
   <style>
     body {
@@ -23,10 +23,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
-    h2, h3 {
-      text-align: center;
-      color: #004aad;
-    }
+    h2, h3 { text-align: center; color: #004aad; }
 
     label {
       display: block;
@@ -42,10 +39,7 @@
       border-radius: 6px;
     }
 
-    .passageiros {
-      margin-top: 20px;
-    }
-
+    .passageiros { margin-top: 20px; }
     .passageiro-card {
       background: #eef4ff;
       border: 1px solid #c9daf8;
@@ -93,7 +87,6 @@
       background: #003080;
     }
 
-    /* PAGAMENTO */
     .form-section { display: none; margin-top: 15px; }
     .form-section.active { display: block; }
 
@@ -102,14 +95,6 @@
       gap: 10px;
       justify-content: space-between;
       margin: 10px 0 18px;
-    }
-
-    .pag-options label {
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      gap: 8px;
-      align-items: center;
     }
 
     .pix-box { text-align: center; margin-top: 8px; }
@@ -150,13 +135,30 @@
       text-decoration: none;
       font-weight: 700;
     }
+
+    /* Botão voltar */
+    .btn-voltar {
+      display: block;
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      font-size: 16px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+    .btn-voltar:hover {
+      background: #222;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ========================= -->
-  <!--      TELA DE RESERVA      -->
-  <!-- ========================= -->
+  <!-- Tela de reserva -->
   <div id="reserva-container" class="container">
     <h2>Reserva de Viagem - JF Tur</h2>
 
@@ -174,9 +176,7 @@
     <button class="btn-continuar" onclick="validarReserva()">Continuar para o Pagamento</button>
   </div>
 
-  <!-- ========================= -->
-  <!--     TELA DO PAGAMENTO     -->
-  <!-- ========================= -->
+  <!-- Tela do pagamento -->
   <div id="pagamento-container" class="container" style="display:none;">
 
     <h2>Pagamento — JF TUR</h2>
@@ -191,7 +191,7 @@
       <label><input type="radio" name="pag" value="boleto"> Boleto</label>
     </div>
 
-    <!-- CARTÃO -->
+    <!-- Cartão -->
     <div id="sec-cartao" class="form-section active">
       <label>Número do Cartão</label>
       <input type="tel" placeholder="0000 0000 0000 0000" maxlength="19">
@@ -216,7 +216,7 @@
       <button id="btn-cartao" class="main">Pagar com Cartão</button>
     </div>
 
-    <!-- PIX -->
+    <!-- Pix -->
     <div id="sec-pix" class="form-section">
       <label>Nome da Pessoa</label>
       <input id="pix-nome" type="text" placeholder="Digite seu nome completo" required>
@@ -239,7 +239,7 @@
       <button id="btn-pix" class="main">Confirmar Pagamento Pix</button>
     </div>
 
-    <!-- BOLETO -->
+    <!-- Boleto -->
     <div id="sec-boleto" class="form-section">
       <p>Informe seus dados para gerar o boleto:</p>
 
@@ -258,6 +258,9 @@
     </div>
 
     <div id="resultado"></div>
+
+    <!-- Botão voltar para reserva-->
+    <button class="btn-voltar" onclick="voltarReserva()">Voltar para a Reserva</button>
 
   </div>
 
@@ -299,10 +302,8 @@
       if (i % 4 === 0) mapaAssentos.appendChild(document.createElement('br'));
     }
 
-    // VALIDAR ANTES DE IR PARA O PAGAMENTO
+    // Validar e avançar para pagamento
     function validarReserva() {
-
-      // Verificar passageiros
       const nomes = document.querySelectorAll('.nome-pass');
       const idades = document.querySelectorAll('.idade-pass');
 
@@ -313,20 +314,18 @@
         }
       }
 
-      // Verificar assentos
       const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
       if (assentosSelecionados.length === 0) {
         alert('Selecione pelo menos 1 assento!');
         return;
       }
 
-      // Tudo OK → abre pagamento
       document.getElementById('reserva-container').style.display = 'none';
       document.getElementById('pagamento-container').style.display = 'block';
       window.scrollTo(0, 0);
     }
 
-    // Popular anos de validade
+    // Destinos populares
     (function popularAnos() {
       const select = document.getElementById('ano-validade');
       const atual = new Date().getFullYear();
@@ -339,7 +338,7 @@
       }
     })();
 
-    // Alternar seções de pagamento
+    // Alternar formas de pagamento
     const radios = document.querySelectorAll('input[name="pag"]');
     const secoes = document.querySelectorAll('.form-section');
     radios.forEach(radio => {
@@ -349,7 +348,7 @@
       });
     });
 
-    // Botões de Pagamento
+    // Botões de pagamento
     document.getElementById('btn-cartao').addEventListener('click', ()=>{
       document.getElementById('resultado').textContent = 'Pagamento com cartão processado!';
     });
@@ -362,6 +361,13 @@
       document.getElementById('boleto-info').style.display = 'block';
       document.getElementById('resultado').textContent = 'Boleto gerado com sucesso!';
     });
+
+    //  Função do botão voltar
+    function voltarReserva() {
+      document.getElementById('pagamento-container').style.display = 'none';
+      document.getElementById('reserva-container').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
 
   </script>
 
