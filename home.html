@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JF Turismo - Encontre seu Destino</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- Estilos CSS -->
+<style>
+
+/* Reset de estilos básicos e Suavização */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Rolagem suave na página */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Variáveis de cores */
+:root {
+    --primary-color: #1a73e8;
+    --secondary-color: #6c8ef5;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --promo-badge-background: #ff6b6b;
+    --input-background: #f9f9f9;
+    --input-border: #ddd;
+    --input-focus-border: #1a73e8;
+    --btn-hover-color: #0d62d9;
+    --white-color-user: white;
+    --footer-color: #e0f7fa;
+}
+
+/* Estilos do corpo */
+body {
+    background: linear-gradient(135deg, var(--background-color) 0%, #c3cfe2 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Estilo do cotainer */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilo do header */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white-color-user);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Estilo da barra de navegação */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+/* Estilo da logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: var(--white-color-user);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0f7fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Estilo da barra de navegação */
+nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: var(--white-color-user);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    padding: 4rem 0;
+    text-align: center;
+    background: linear-gradient(rgba(26,115,232,0.8), rgba(108,142,245,0.8)), 
+        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1330&q=80') no-repeat center center;
+    background-size: cover;
+    color: var(--white-color-user);
+    position: relative;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Seção de Pesquisa */
+.search-section {
+    background: var(--white-color-user);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.search-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Estilo dos campos de input e form */
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--input-background);
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--input-focus-border);
+    outline: none;
+}
+
+.search-btn {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    align-self: flex-end;
+}
+
+.search-btn:hover {
+    background: var(--secondary-color);
+}
+
+/* Seção de Aventura */
+.adventure-section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+}
+
+.adventure-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.adventure-card {
+    background: var(--white-color-user);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.adventure-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.card-content p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.date-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.date-selector input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    background: var(--input-background);
+    color: var(--text-color);
+}
+
+.book-btn {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.book-btn:hover {
+    background: var(--secondary-color);
+}
+
+/* Seção das Promoções */
+.promotions-section {
+    padding: 4rem 0;
+    background: var(--background-color);
+}
+
+.promotion-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.promotion-card {
+    background: var(--white-color-user);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.promotion-card:hover {
+    transform: translateY(-5px);
+}
+
+.promo-badge {
+    background: var(--promo-badge-background);
+    color: var(--white-color-user);
+    padding: 0.5rem 1rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.promo-img {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+}
+
+.promo-content {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.promo-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.promo-content p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    padding: 3rem 0 1.5rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-column h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-column ul li a {
+    color: var(--footer-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: var(--white-color-user);
+}
+
+/* Ícones de redes sociais */
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--white-color-user);
+    transition: background 0.3s;
+}
+
+.social-icons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Estilo do footer final */
+.copyright {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--footer-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+    }
+    .search-form {
+        flex-direction: column;
+    }
+    .adventure-cards,
+    .promotion-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+</head>
+<!-- -->
+<body>
+    <!-- Header -->
+    <header>
+        <div class="navbar container">
+            <div class="logo">
+                <div class="logo-placeholder" style="width: 50px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-plane" style="color: #027581; font-size: 1.5rem;"></i>
+                </div>
+                <span class="logo-text">JF Turismo</span>
+            </div>
+            <nav>
+                <a href="home.html">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/client/destinos.html">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Destinos</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contato</span>
+                </a>
+                <a href="/client/acesso.html">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Área do Cliente</span>
+                </a>
+                <a href="/admin/login.html">
+                    <i class="fas fa-lock"></i>
+                    <span>Acesso Restrito</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content container">
+            <h1>JF Turismo</h1>
+            <p>Encontre seu Destino</p>
+            
+            <div class="search-section">
+                <h2>Onde você quer viajar?</h2>
+                <form class="search-form" onsubmit="event.preventDefault(); buscarViagens();">
+                    <div class="form-group">
+                        <label for="destination">Destino</label>
+                        <input type="text" id="destination" placeholder="Para onde você quer ir?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="check-in">Check-in</label>
+                        <input type="date" id="check-in" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="check-out">Check-out</label>
+                        <input type="date" id="check-out" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="travelers">Viajantes</label>
+                        <select id="travelers" required>
+                            <option value="1">1 Viajante</option>
+                            <option value="2">2 Viajantes</option>
+                            <option value="3">3 Viajantes</option>
+                            <option value="4">4 Viajantes</option>
+                            <option value="5+">5+ Viajantes</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">Buscar Viagens</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Aventura -->
+    <section class="adventure-section container">
+        <h2 class="section-title">Aventura</h2>
+        <div class="adventure-cards">
+            <div class="adventure-card">
+                <img src="https://images.pexels.com/photos/9159898/pexels-photo-9159898.jpeg?_gl=1*1ye24rt*_ga*MTkzMDE5MTQzNi4xNzYzNzc4MjE2*_ga_8JE65Q40S6*czE3NjM3NzgyMTYkbzEkZzEkdDE3NjM3Nzg4MzUkajU5JGwwJGgw" class="card-img">
+                <div class="card-content">
+                    <h3>Trilha na Montanha</h3>
+                    <p>Explore as mais belas trilhas com guias especializados. Aventura garantida para os amantes da natureza.</p>
+                    <div class="date-selector">
+                        <input type="date" placeholder="Selecione uma data">
+                    </div>
+                    <button class="book-btn">Reservar Agora</button>
+                </div>
+            </div>
+            
+            <div class="adventure-card">
+                <img src="https://images.pexels.com/photos/15763637/pexels-photo-15763637.jpeg?_gl=1*3few0l*_ga*MTkzMDE5MTQzNi4xNzYzNzc4MjE2*_ga_8JE65Q40S6*czE3NjM3NzgyMTYkbzEkZzEkdDE3NjM3Nzg5NDgkajM5JGwwJGgw" alt="Mergulho" class="card-img">
+                <div class="card-content">
+                    <h3>Mergulho nas Ilhas</h3>
+                    <p>Descubra a vida marinha em um mergulho inesquecível. Equipamento incluso e instrutores certificados.</p>
+                    <div class="date-selector">
+                        <input type="date" placeholder="Selecione uma data">
+                    </div>
+                    <button class="book-btn">Reservar Agora</button>
+                </div>
+            </div>
+            
+            <div class="adventure-card">
+                <img src="https://images.pexels.com/photos/13017112/pexels-photo-13017112.jpeg?_gl=1*iayckb*_ga*MTkzMDE5MTQzNi4xNzYzNzc4MjE2*_ga_8JE65Q40S6*czE3NjM3NzgyMTYkbzEkZzEkdDE3NjM3NzkwMzEkajM0JGwwJGgw" alt="Group of people in an inflatable raft navigating turbulent whitewater rapids wearing helmets and life jackets led by a standing guide; splashing river water with rocky banks and a wooden bridge in the background; energetic and exhilarated mood" class="card-img">
+                <div class="card-content">
+                    <h3>Rafting Radical</h3>
+                    <p>Desça corredeiras emocionantes em um rafting cheio de adrenalina. Experiência para os mais corajosos.</p>
+                    <div class="date-selector">
+                        <input type="date" placeholder="Selecione uma data">
+                    </div>
+                    <button class="book-btn">Reservar Agora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de promoção -->
+    <section class="promotions-section">
+        <div class="container">
+            <h2 class="section-title">Promoções em Destaque</h2>
+            <div class="promotion-cards">
+                <div class="promotion-card">
+                    <div class="promo-badge">-30%</div>
+                    <img src="https://images.pexels.com/photos/30676933/pexels-photo-30676933.jpeg?_gl=1*eaccxv*_ga*MTkzMDE5MTQzNi4xNzYzNzc4MjE2*_ga_8JE65Q40S6*czE3NjM3NzgyMTYkbzEkZzEkdDE3NjM3Nzg0NjckajI5JGwwJGgw" alt="Fernando de Noronha" class="promo-img">
+                    <div class="promo-content">
+                        <h3>Fernando de Noronha</h3>
+                        <p>7 dias nas praias mais belas do Brasil. Inclui hospedagem e passeios.</p>
+                        <div class="price">
+                            R$ 2.499 <span class="original-price">R$ 3.570</span>
+                        </div>
+                        <button class="book-btn">Aproveitar Oferta</button>
+                    </div>
+                </div>
+                
+                <div class="promotion-card">
+                    <div class="promo-badge">-25%</div>
+                    <img src="https://images.unsplash.com/photo-1516306580123-e6e52b1b7b5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1226&q=80" alt="Rio de Janeiro" class="promo-img">
+                    <div class="promo-content">
+                        <h3>Rio de Janeiro</h3>
+                        <p>5 dias na Cidade Maravilhosa. Cristo Redentor, Pão de Açúcar e muito mais.</p>
+                        <div class="price">
+                            R$ 1.199 <span class="original-price">R$ 1.599</span>
+                        </div>
+                        <button class="book-btn">Aproveitar Oferta</button>
+                    </div>
+                </div>
+                
+                <div class="promotion-card">
+                    <div class="promo-badge">-20%</div>
+                    <img src="https://images.pexels.com/photos/22809319/pexels-photo-22809319.jpeg" alt="Gramado" class="promo-img">
+                    <div class="promo-content">
+                        <h3>Gramado - Serra Gaúcha</h3>
+                        <p>4 dias no destino mais romântico do Brasil. Roteiro completo com chocolate e vinho.</p>
+                        <div class="price">
+                            R$ 899 <span class="original-price">R$ 1.124</span>
+                        </div>
+                        <button class="book-btn">Aproveitar Oferta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>JF Turismo</h3>
+                    <p>Sua agência de viagens de confiança, levando você aos melhores destinos com segurança e qualidade.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="destinos.html">Destinos</a></li>
+                        <li><a href="#">Pacotes Promocionais</a></li>
+                        <li><a href="#">Aventuras</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rua das Viagens, 123 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@jfturismo.com</li>
+                        <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 JF Turismo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- -->
+    <script>
+        // Script para definir datas mínimas nos campos de data
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            const checkInInput = document.getElementById('check-in');
+            const checkOutInput = document.getElementById('check-out');
+            const dateInputs = document.querySelectorAll('.date-selector input');
+            
+            if (checkInInput) checkInInput.min = today;
+            if (checkOutInput) checkOutInput.min = today;
+            
+            dateInputs.forEach(input => {
+                input.min = today;
+            });
+            
+            // Atualizar data mínima do checkout quando o checkin for alterado
+            if (checkInInput && checkOutInput) {
+                checkInInput.addEventListener('change', function() {
+                    checkOutInput.min = this.value;
+                });
+            }
+        });
+
+        function buscarViagens() {
+            const destino = document.getElementById('destination').value;
+            const checkIn = document.getElementById('check-in').value;
+            const checkOut = document.getElementById('check-out').value;
+            const viajantes = document.getElementById('travelers').value;
+            
+            alert(`Busca realizada!\nDestino: ${destino}\nCheck-in: ${checkIn}\nCheck-out: ${checkOut}\nViajantes: ${viajantes}`);
+        }
+
+        // Função para download das imagens
+        function downloadImage(url, filename) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                })
+                .catch(console.error);
+        }
+    </script>
+    <!-- -->
+</body>
+</html>

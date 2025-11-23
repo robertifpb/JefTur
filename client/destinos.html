@@ -5,367 +5,396 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinos - JF Turismo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- Estilos CSS -->
+<style>
+/* Reset de estilos básicos e Suavização */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
+/* Rolagem suave na página */
+html {
+    scroll-behavior: smooth;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* Variáveis de cores */
+:root {
+    --primary-color: #1a73e8;
+    --secondary-color: #6c8ef5;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --promo-badge-background: #ff6b6b;
+    --input-background: #f9f9f9;
+    --input-border: #ddd;
+    --input-focus-border: #1a73e8;
+    --btn-hover-color: #0d62d9;
+    --white-color-user: white;
+    --footer-color: #e0f7fa;
+    --rating-color: #ffc107;
+}
 
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #027581 0%, #025e68 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+/* Estilos do corpo */
+body {
+    background: linear-gradient(135deg, var(--background-color) 0%, #c3cfe2 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
+/* Estilo do cotainer */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white-color-user);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-        .logo-placeholder {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
 
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #fff, #e0f7fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
 
-        nav {
-            display: flex;
-            gap: 1.5rem;
-        }
+.logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: var(--white-color-user);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0f7fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
+/* Estilo da barra de navegação */
+nav {
+    display: flex;
+    gap: 1.5rem;
+}
 
-        /* Top Bar */
-        .top-bar {
-            background: white;
-            padding: 2rem 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
+nav a {
+    color: var(--white-color-user);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
 
-        .top-bar h2 {
-            color: #027581;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
 
-        .back-btn {
-            background: #027581;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+/* Top Bar */
+.top-bar {
+    background: var(--white-color-user);
+    padding: 2rem 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
 
-        .back-btn:hover {
-            background: #025e68;
-        }
+.top-bar h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
 
-        /* Destinations Grid */
-        .destinations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            padding: 2rem 0;
-        }
+.back-btn {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
 
-        .destination-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
+.back-btn:hover {
+    background: var(--btn-hover-color);
+}
 
-        .destination-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
+/* Filtro e pesquisa */
+.search-filter {
+    background: var(--white-color-user);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
 
-        .destination-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
 
-        .destination-card:hover img {
-            transform: scale(1.05);
-        }
+.search-box input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--input-background);
+}
 
-        .details {
-            padding: 1.5rem;
-        }
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
 
-        .details h3 {
-            color: #027581;
-            font-size: 1.4rem;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
+.filter-select {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--white-color-user);
+    min-width: 200px;
+}
 
-        .details p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
+/* Grid com os destinos */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
 
-        .details button {
-            background: #027581;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
+.destination-card {
+    background: var(--white-color-user);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
 
-        .details button:hover {
-            background: #025e68;
-            transform: translateY(-2px);
-        }
+.destination-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
 
-        /* Price Tag */
-        .price-tag {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #ff6b6b;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
+.destination-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
 
-        /* Rating */
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 0.5rem 0;
-        }
+.destination-card:hover img {
+    transform: scale(1.05);
+}
 
-        .rating-stars {
-            color: #ffc107;
-        }
+.details {
+    padding: 1.5rem;
+}
 
-        .rating-value {
-            color: #666;
-            font-weight: 600;
-        }
+.details h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
 
-        /* Footer */
-        footer {
-            background: #027581;
-            color: white;
-            padding: 3rem 0 1.5rem;
-            margin-top: 4rem;
-        }
+.details p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
+.details button {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
 
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
+.details button:hover {
+    background: var(--btn-hover-color);
+    transform: translateY(-2px);
+}
 
-        .footer-column ul {
-            list-style: none;
-        }
+/* Etiqueta de preço */
+.price-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--promo-badge-background);
+    color: var(--white-color-user);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
 
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+/* Avaliação */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
 
-        .footer-column ul li a {
-            color: #e0f7fa;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+.rating-stars {
+    color: var(--rating-color);
+}
 
-        .footer-column ul li a:hover {
-            color: white;
-        }
+.rating-value {
+    color: #666;
+    font-weight: 600;
+}
 
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+/* Rodapé */
+footer {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+}
 
-        .social-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            transition: background 0.3s;
-        }
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
 
-        .social-icons a:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+.footer-column h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
 
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: #e0f7fa;
-        }
+.footer-column ul {
+    list-style: none;
+}
 
-        /* Search and Filter */
-        .search-filter {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+.footer-column ul li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
 
-        .search-box {
-            flex: 1;
-            min-width: 300px;
-            position: relative;
-        }
+.footer-column ul li a {
+    color: var(--footer-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
 
-        .search-box input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
+.footer-column ul li a:hover {
+    color: var(--white-color-user);
+}
 
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
+/* Ícones de redes sociais */
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 
-        .filter-select {
-            padding: 0.8rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: white;
-            min-width: 200px;
-        }
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--white-color-user);
+    transition: background 0.3s;
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .destinations-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-filter {
-                flex-direction: column;
-            }
-            
-            .search-box {
-                min-width: 100%;
-            }
-            
-            .filter-select {
-                width: 100%;
-            }
-        }
-    </style>
+.social-icons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Estilo do footer final */
+.copyright {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--footer-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+    .search-filter {
+        flex-direction: column;
+    }
+    .search-box {
+        min-width: 100%;
+    }
+    .filter-select {
+        width: 100%;
+    }
+}
+</style>
 </head>
+<!-- -->
 <body>
     <!-- Header -->
     <header>
@@ -377,7 +406,7 @@
                 <span class="logo-text">JF Turismo</span>
             </div>
             <nav>
-                <a href="index.html">
+                <a href="/home.html">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
                 </a>
@@ -401,18 +430,18 @@
         </div>
     </header>
 
-    <!-- Top Bar -->
+    <!-- Barra superior -->
     <div class="top-bar">
         <div class="container">
             <h2>Destinos Encontrados</h2>
-            <button class="back-btn" onclick="window.location.href='index.html'">
+            <button class="back-btn" onclick="window.location.href='/home.html'">
                 <i class="fas fa-arrow-left"></i>
                 Voltar à Página Inicial
             </button>
         </div>
     </div>
 
-    <!-- Search and Filter -->
+    <!-- Pesquisar e filtrar -->
     <div class="container">
         <div class="search-filter">
             <div class="search-box">
@@ -710,8 +739,8 @@
                 <div class="footer-column">
                     <h3>Links Rápidos</h3>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="resultados.html">Destinos</a></li>
+                        <li><a href="/home.html">Home</a></li>
+                        <li><a href="destinos.html">Destinos</a></li>
                         <li><a href="#">Pacotes Promocionais</a></li>
                         <li><a href="#">Aventuras</a></li>
                         <li><a href="#">Contato</a></li>
@@ -734,7 +763,7 @@
             </div>
         </div>
     </footer>
-
+    <!-- -->
     <script>
         // Filtros e busca
         document.addEventListener('DOMContentLoaded', function() {
@@ -776,5 +805,6 @@
             regionFilter.addEventListener('change', filterDestinations);
         });
     </script>
+    <!-- -->
 </body>
 </html>
