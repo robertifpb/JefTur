@@ -3,320 +3,792 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reserva e Pagamento - [JF Tur]</title>
-
+  <link rel="icon" href="/assets/icons/favicon_home.png" type="image/x-icon">
+  <title>Reservas e Pagamentos | JF Tur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Estilos CSS -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #007bff, #1900ff);
-      margin: 0;
-      padding: 0;
-      color: #333;
+
+  /* Reset de estilos básicos e Suavização */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Rolagem suave na página */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Variáveis de cores */
+  :root {
+    --primary-color: #1a73e8;
+    --secondary-color: #6c8ef5;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --promo-badge-background: #ff6b6b;
+    --input-background: #f9f9f9;
+    --input-border: #ddd;
+    --input-focus-border: #1a73e8;
+    --btn-hover-color: #0d62d9;
+    --white-color-user: white;
+    --footer-color: #e0f7fa;
+    --rating-color: #ffc107;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+  }
+
+  /* Estilos do corpo */
+  body {
+    background: linear-gradient(135deg, var(--background-color) 0%, #c3cfe2 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header Styles */
+  header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white-color-user);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* Estilo da barra de navegação */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: var(--white-color-user);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0f7fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  nav a {
+    color: var(--white-color-user);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Container principal */
+  .container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 20px;
+  }
+
+  /* Card principal */
+  .reservation-card {
+    background: var(--white-color-user);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .reservation-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white-color-user);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .card-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-content {
+    padding: 2rem;
+  }
+
+  /* Formulários */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--input-background);
+    transition: border 0.3s;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--input-focus-border);
+    outline: none;
+  }
+
+  /* Passageiros */
+  .passageiros {
+    margin-top: 1.5rem;
+  }
+
+  .passageiro-card {
+    background: #eef4ff;
+    border: 1px solid #c9daf8;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-top: 1rem;
+    transition: all 0.3s;
+  }
+
+  .passageiro-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .passageiro-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  /* Assentos */
+  .assentos {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .assento {
+    width: 45px;
+    height: 45px;
+    background: #cce0ff;
+    border: none;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+  }
+
+  .assento:hover {
+    background: #a8c8ff;
+  }
+
+  .assento.selecionado {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .assento.ocupado {
+    background: #ffcccc;
+    cursor: not-allowed;
+  }
+
+  /* Botões */
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+  }
+
+  .btn-primary:hover {
+    background: var(--btn-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    color: var(--white-color-user);
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+  }
+
+  .btn-success {
+    background: var(--success-color);
+    color: var(--white-color-user);
+  }
+
+  .btn-success:hover {
+    background: #218838;
+    transform: translateY(-2px);
+  }
+
+  .btn-block {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  /* Formas de pagamento */
+  .pag-options {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  .pag-option {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .pag-option input[type="radio"] {
+    display: none;
+  }
+
+  .pag-option label {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+    background: var(--input-background);
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .pag-option input[type="radio"]:checked + label {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border-color: var(--primary-color);
+  }
+
+  .form-section {
+    display: none;
+    margin-top: 1.5rem;
+    animation: fadeIn 0.5s;
+  }
+
+  .form-section.active {
+    display: block;
+  }
+
+  /* Pix */
+  .pix-box {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .pix-code {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    background: #f6f8fb;
+    font-family: monospace;
+    font-size: 1.1rem;
+    border: 1px dashed #ccc;
+  }
+
+  /* Resultado */
+  #resultado {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+  }
+
+  .success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  /* Login necessário */
+  .login-required {
+    text-align: center;
+    padding: 2rem;
+    background: var(--white-color-user);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-required h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+
+  .login-required p {
+    margin-bottom: 1.5rem;
+    color: #666;
+  }
+
+  .login-required .btn {
+    margin: 0.5rem;
+  }
+
+  /* Animações */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
     }
-
-    .container {
-      max-width: 800px;
-      background: #fff;
-      margin: 40px auto;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        
+    nav {
+      flex-wrap: wrap;
+      justify-content: center;
     }
-
-    h2, h3 { text-align: center; color: #004aad; }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
+        
+    .pag-options {
+        flex-direction: column;
     }
-
-    select, input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .passageiros { margin-top: 20px; }
-    .passageiro-card {
-      background: #eef4ff;
-      border: 1px solid #c9daf8;
-      border-radius: 10px;
-      padding: 10px;
-      margin-top: 10px;
-    }
-
-    .assentos {
-      margin-top: 25px;
-      text-align: center;
-    }
-
+        
     .assento {
       width: 40px;
       height: 40px;
-      background: #cce0ff;
-      border: none;
-      margin: 4px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
+      margin: 3px;
     }
-
-    .assento.selecionado {
-      background: #004aad;
-      color: white;
-    }
-
-    .btn-continuar {
-      display: block;
-      width: 100%;
-      margin-top: 25px;
-      padding: 12px;
-      font-size: 16px;
-      background: #004aad;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-continuar:hover {
-      background: #003080;
-    }
-
-    .form-section { display: none; margin-top: 15px; }
-    .form-section.active { display: block; }
-
-    .pag-options {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      margin: 10px 0 18px;
-    }
-
-    .pix-box { text-align: center; margin-top: 8px; }
-    .pix-code {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: #f6f8fb;
-      font-family: monospace;
-    }
-
-    button.main {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: #007bff;
-      color: #fff;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    button.main:hover { background: #0056b3; }
-
-    #resultado {
-      margin-top: 16px;
-      text-align: center;
-      font-weight: bold;
-      color: green;
-    }
-
-    a.boleto-link {
-      display: inline-block;
-      margin-top: 10px;
-      color: #007bff;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    /* Botão voltar */
-    .btn-voltar {
-      display: block;
-      width: 100%;
-      margin-top: 25px;
-      padding: 12px;
-      font-size: 16px;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: 600;
-    }
-    .btn-voltar:hover {
-      background: #222;
-    }
+  }
   </style>
+  <!-- -->
 </head>
+
 <body>
-
-  <!-- Tela de reserva -->
-  <div id="reserva-container" class="container">
-    <h2>Reserva de Viagem - JF Tur</h2>
-
-    <label for="numPassageiros">Quantidade de passageiros:</label>
-    <input type="number" id="numPassageiros" min="1" max="50" value="1">
-    <button onclick="gerarCampos()">Gerar Campos</button>
-
-    <div class="passageiros" id="passageiros"></div>
-
-    <div class="assentos">
-      <h3>Escolha seus assentos:</h3>
-      <div id="mapaAssentos"></div>
-    </div>
-
-    <button class="btn-continuar" onclick="validarReserva()">Continuar para o Pagamento</button>
-  </div>
-
-  <!-- Tela do pagamento -->
-  <div id="pagamento-container" class="container" style="display:none;">
-
-    <h2>Pagamento — JF TUR</h2>
-
-    <label for="valor">Valor da Viagem (R$)</label>
-    <input id="valor" type="number" step="0.01" placeholder="Ex: 350.00" min="0">
-
-    <label>Forma de Pagamento</label>
-    <div class="pag-options">
-      <label><input type="radio" name="pag" value="cartao" checked> Cartão</label>
-      <label><input type="radio" name="pag" value="pix"> Pix</label>
-      <label><input type="radio" name="pag" value="boleto"> Boleto</label>
-    </div>
-
-    <!-- Cartão -->
-    <div id="sec-cartao" class="form-section active">
-      <label>Número do Cartão</label>
-      <input type="tel" placeholder="0000 0000 0000 0000" maxlength="19">
-
-      <label>Nome do Titular</label>
-      <input type="text" placeholder="NOME SOBRENOME">
-
-      <label>Mês de Validade</label>
-      <select id="mes-validade" required>
-        <option value="">MM</option>
-        <option>01</option><option>02</option><option>03</option><option>04</option>
-        <option>05</option><option>06</option><option>07</option><option>08</option>
-        <option>09</option><option>10</option><option>11</option><option>12</option>
-      </select>
-
-      <label>Ano de Validade</label>
-      <select id="ano-validade" required></select>
-
-      <label>CVV</label>
-      <input type="password" maxlength="4" placeholder="***" required>
-
-      <button id="btn-cartao" class="main">Pagar com Cartão</button>
-    </div>
-
-    <!-- Pix -->
-    <div id="sec-pix" class="form-section">
-      <label>Nome da Pessoa</label>
-      <input id="pix-nome" type="text" placeholder="Digite seu nome completo" required>
-
-      <label>CPF/CNPJ</label>
-      <input id="pix-cpf" type="text" placeholder="000.000.000-00" maxlength="18" required>
-
-      <div class="pix-box">
-        <p>Escaneie o QR Code abaixo para realizar o pagamento:</p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?data=jeffersonturismo02@gmail.com&size=150x150" alt="QR Code Pix">
-        <small style="display:block; color:gray; font-size:0.85em; margin-top:4px;">
-          *Imagem ilustrativa – QR Code de exemplo.
-        </small>
-        <div class="pix-code">jeffersonturismo02@gmail.com</div>
-
-        <div class="Recebedor"> Jeferson Nascimento dos santos</div>
-        <div class="Banco"> BANCO ITAÚ-UNIBANCO SA</div>
+  <!-- Header -->
+  <header>
+    <div class="navbar container">
+      <div class="logo">
+        <div class="logo-placeholder">
+          <i class="fas fa-plane" style="color: #027581; font-size: 1.5rem;"></i>
+        </div>
+        <span class="logo-text">JF Turismo</span>
       </div>
-
-      <button id="btn-pix" class="main">Confirmar Pagamento Pix</button>
+      <nav>
+        <a href="/home.html">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="/client/destinos.html">
+          <i class="fas fa-map-marked-alt"></i>
+          <span>Destinos</span>
+        </a>
+        <a href="/client/cadastro.html">
+          <i class="fas fa-id-card"></i>
+          <span>Criar uma conta</span>
+        </a>
+        <a href="/client/acesso.html">
+          <i class="fas fa-user-circle"></i>
+          <span>Acesso do Cliente</span>
+        </a>
+        <a href="/admin/login.html">
+          <i class="fas fa-lock"></i>
+          <span>Acesso Restrito</span>
+        </a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Boleto -->
-    <div id="sec-boleto" class="form-section">
-      <p>Informe seus dados para gerar o boleto:</p>
-
-      <label>Nome Completo</label>
-      <input id="boleto-nome" type="text" placeholder="Digite seu nome completo" required>
-
-      <label>CPF</label>
-      <input id="boleto-cpf" type="text" placeholder="000.000.000-00" maxlength="14" required>
-
-      <button id="btn-boleto" class="main">Gerar Boleto</button>
-
-      <div id="boleto-info" style="display:none; margin-top:12px; text-align:center;">
-        <p><strong>Boleto gerado com sucesso!</strong></p>
-        <a href="#" class="boleto-link">Clique aqui para baixar o boleto</a>
+  <div class="container">
+    <!-- Tela de login necessário -->
+    <div id="login-required" class="login-required" style="display: none;">
+      <h2>Login Necessário</h2>
+      <p>Para realizar uma reserva, é necessário fazer login em sua conta.</p>
+      <p>Se você ainda não tem uma conta, cadastre-se gratuitamente.</p>
+      <div>
+        <a href="/client/acesso.html" class="btn btn-primary">Fazer Login</a>
+        <a href="/client/cadastro.html" class="btn btn-secondary">Criar Conta</a>
       </div>
     </div>
 
-    <div id="resultado"></div>
+    <!-- Tela de reserva -->
+    <div id="reserva-container" class="reservation-card">
+      <div class="card-header">
+        <h2>Reserva de Viagem</h2>
+        <p>Complete os dados da sua reserva</p>
+      </div>
+      <div class="card-content">
+        <!-- Informações do destino -->
+        <div id="destino-info" class="form-group">
+          <h3 id="nome-destino" style="color: var(--primary-color); margin-bottom: 0.5rem;"></h3>
+          <p id="descricao-destino" style="color: #666;"></p>
+          <div class="price-tag" style="display: inline-block; margin-top: 0.5rem; background: var(--promo-badge-background); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold;">
+            <span id="preco-destino"></span>
+          </div>
+        </div>
 
-    <!-- Botão voltar para reserva-->
-    <button class="btn-voltar" onclick="voltarReserva()">Voltar para a Reserva</button>
+        <div class="form-group">
+          <label for="numPassageiros">Quantidade de passageiros:</label>
+          <input type="number" id="numPassageiros" min="1" max="10" value="1">
+          <button class="btn btn-primary" onclick="gerarCampos()" style="margin-top: 0.5rem;">Gerar Campos</button>
+        </div>
 
+        <div class="passageiros" id="passageiros"></div>
+
+        <div class="assentos">
+          <h3>Escolha seus assentos:</h3>
+          <div id="mapaAssentos"></div>
+        </div>
+
+        <button class="btn btn-success btn-block" onclick="validarReserva()">Continuar para o Pagamento</button>
+      </div>
+    </div>
+
+    <!-- Tela do pagamento -->
+    <div id="pagamento-container" class="reservation-card" style="display:none;">
+      <div class="card-header">
+        <h2>Pagamento</h2>
+        <p>Finalize sua reserva com segurança</p>
+      </div>
+      <div class="card-content">
+        <div class="form-group">
+          <label for="valor">Valor da Viagem (R$)</label>
+          <input id="valor" type="number" step="0.01" placeholder="Ex: 350.00" min="0" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Forma de Pagamento</label>
+          <div class="pag-options">
+            <div class="pag-option">
+              <input type="radio" name="pag" value="cartao" id="cartao" checked>
+              <label for="cartao"><i class="fas fa-credit-card"></i> Cartão</label>
+            </div>
+            <div class="pag-option">
+              <input type="radio" name="pag" value="pix" id="pix">
+              <label for="pix"><i class="fas fa-qrcode"></i> Pix</label>
+            </div>
+            <div class="pag-option">
+              <input type="radio" name="pag" value="boleto" id="boleto">
+              <label for="boleto"><i class="fas fa-barcode"></i> Boleto</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cartão -->
+        <div id="sec-cartao" class="form-section active">
+          <div class="form-group">
+            <label>Número do Cartão</label>
+            <input type="tel" placeholder="0000 0000 0000 0000" maxlength="19" required>
+          </div>
+
+          <div class="form-group">
+            <label>Nome do Titular</label>
+            <input type="text" placeholder="NOME SOBRENOME" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Mês de Validade</label>
+              <select id="mes-validade" required>
+                <option value="">MM</option>
+                <option>01</option><option>02</option><option>03</option><option>04</option>
+                <option>05</option><option>06</option><option>07</option><option>08</option>
+                <option>09</option><option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Ano de Validade</label>
+              <select id="ano-validade" required></select>
+            </div>
+
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="password" maxlength="4" placeholder="***" required>
+            </div>
+          </div>
+
+          <button id="btn-cartao" class="btn btn-success btn-block">Pagar com Cartão</button>
+        </div>
+
+        <!-- Pix -->
+        <div id="sec-pix" class="form-section">
+          <div class="form-group">
+            <label>Nome da Pessoa</label>
+            <input id="pix-nome" type="text" placeholder="Digite seu nome completo" required>
+          </div>
+
+          <div class="form-group">
+            <label>CPF/CNPJ</label>
+            <input id="pix-cpf" type="text" placeholder="000.000.000-00" maxlength="18" required>
+          </div>
+          <!-- utilizand api do QRCODE -->
+          <div class="pix-box">
+            <p>Escaneie o QR Code abaixo para realizar o pagamento:</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=jeffersonturismo02@gmail.com&size=150x150" alt="QR Code Pix">
+            <small style="display:block; color:gray; font-size:0.85em; margin-top:4px;">
+              *Imagem ilustrativa – QR Code de exemplo.
+            </small>
+            <div class="pix-code">jeffersonturismo02@gmail.com</div>
+            <div style="margin-top: 1rem;">
+              <p><strong>Recebedor:</strong> Jeferson Nascimento dos santos</p>
+              <p><strong>Banco:</strong> BANCO ITAÚ-UNIBANCO SA</p>
+            </div>
+          </div>
+
+          <button id="btn-pix" class="btn btn-success btn-block">Confirmar Pagamento Pix</button>
+        </div>
+
+        <!-- Boleto -->
+        <div id="sec-boleto" class="form-section">
+          <p>Informe seus dados para gerar o boleto:</p>
+
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input id="boleto-nome" type="text" placeholder="Digite seu nome completo" required>
+          </div>
+
+          <div class="form-group">
+            <label>CPF</label>
+            <input id="boleto-cpf" type="text" placeholder="000.000.000-00" maxlength="14" required>
+          </div>
+
+          <button id="btn-boleto" class="btn btn-success btn-block">Gerar Boleto</button>
+
+          <div id="boleto-info" style="display:none; margin-top:1.5rem; text-align:center; padding: 1rem; background: #e9f7ef; border-radius: 8px;">
+            <p><strong>Boleto gerado com sucesso!</strong></p>
+            <a href="#" class="btn btn-primary" style="margin-top: 0.5rem;">Baixar Boleto</a>
+          </div>
+        </div>
+
+        <div id="resultado"></div>
+
+        <button class="btn btn-secondary btn-block" onclick="voltarReserva()">Voltar para a Reserva</button>
+      </div>
+    </div>
   </div>
 
+  <!-- Scripts -->
   <script>
+    // Verificar se o usuário está logado
+    function verificarLogin() {
+      const usuarioLogado = localStorage.getItem('usuarioLogado');
+      return usuarioLogado === 'true';
+    }
+
+    // Verificar login ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!verificarLogin()) {
+        document.getElementById('login-required').style.display = 'block';
+        document.getElementById('reserva-container').style.display = 'none';
+      } else {
+        document.getElementById('login-required').style.display = 'none';
+        document.getElementById('reserva-container').style.display = 'block';
+        
+        // Carregar informações do destino da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const destino = urlParams.get('destino');
+        
+        if (destino) {
+          carregarDestino(destino);
+        }
+      }
+      
+      // Inicializar componentes
+      popularAnos();
+      criarMapaAssentos();
+      configurarPagamentos();
+    });
+
+    // Dados simulados dos destinos
+    const destinos = {
+      rio: {
+        nome: "Rio de Janeiro",
+        descricao: "Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.",
+        preco: "R$ 900"
+      },
+      salvador: {
+        nome: "Salvador",
+        descricao: "Conheça a rica história, a música e a culinária única de Salvador.",
+        preco: "R$ 1.200"
+      },
+      florianopolis: {
+        nome: "Florianópolis",
+        descricao: "Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.",
+        preco: "R$ 1.100"
+      },
+      chapada: {
+        nome: "Chapada dos Veadeiros",
+        descricao: "Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!",
+        preco: "R$ 1.200"
+      }
+    };
+
+    // Carregar informações do destino
+    function carregarDestino(destino) {
+      const viagem = destinos[destino];
+      if (viagem) {
+        document.getElementById('nome-destino').textContent = viagem.nome;
+        document.getElementById('descricao-destino').textContent = viagem.descricao;
+        document.getElementById('preco-destino').textContent = viagem.preco;
+        document.getElementById('valor').value = viagem.preco.replace('R$ ', '');
+      }
+    }
 
     // Gerar campos dos passageiros
     function gerarCampos() {
       const num = document.getElementById('numPassageiros').value;
       const container = document.getElementById('passageiros');
       container.innerHTML = '';
+      
       for (let i = 1; i <= num; i++) {
         container.innerHTML += `
           <div class="passageiro-card">
             <h4>Passageiro ${i}</h4>
-            <label>Nome:</label>
-            <input class="nome-pass" type="text" placeholder="Digite o nome completo" required>
-            <label>Idade:</label>
-            <input class="idade-pass" type="number" placeholder="Idade" required>
-            <label>Tipo de passageiro:</label>
-            <select>
-              <option value="crianca">Criança (0-11)</option>
-              <option value="adolescente">Adolescente (12-17)</option>
-              <option value="adulto">Adulto (18-59)</option>
-              <option value="idoso">Idoso (60+)</option>
-            </select>
+            <div class="form-group">
+              <label>Nome:</label>
+              <input class="nome-pass" type="text" placeholder="Digite o nome completo" required>
+            </div>
+            <div class="form-group">
+              <label>Idade:</label>
+              <input class="idade-pass" type="number" placeholder="Idade" min="0" max="120" required>
+            </div>
+            <div class="form-group">
+              <label>Tipo de passageiro:</label>
+              <select>
+                <option value="crianca">Criança (0-11)</option>
+                <option value="adolescente">Adolescente (12-17)</option>
+                <option value="adulto">Adulto (18-59)</option>
+                <option value="idoso">Idoso (60+)</option>
+              </select>
+            </div>
           </div>
         `;
       }
     }
 
     // Criar mapa de assentos
-    const mapaAssentos = document.getElementById('mapaAssentos');
-    for (let i = 1; i <= 50; i++) {
-      const btn = document.createElement('button');
-      btn.textContent = i;
-      btn.className = 'assento';
-      btn.onclick = () => btn.classList.toggle('selecionado');
-      mapaAssentos.appendChild(btn);
-      if (i % 4 === 0) mapaAssentos.appendChild(document.createElement('br'));
+    function criarMapaAssentos() {
+      const mapaAssentos = document.getElementById('mapaAssentos');
+      mapaAssentos.innerHTML = '';
+      
+      // Criar alguns assentos ocupados aleatoriamente
+      const assentosOcupados = [3, 7, 12, 18, 23, 29, 34, 40, 45];
+      
+      for (let i = 1; i <= 50; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = 'assento';
+        
+        if (assentosOcupados.includes(i)) {
+          btn.classList.add('ocupado');
+          btn.disabled = true;
+        } else {
+          btn.onclick = () => {
+            btn.classList.toggle('selecionado');
+          };
+        }
+        
+        mapaAssentos.appendChild(btn);
+        if (i % 5 === 0) mapaAssentos.appendChild(document.createElement('br'));
+      }
     }
 
     // Validar e avançar para pagamento
     function validarReserva() {
+      // Verificar se ainda está logado
+      if (!verificarLogin()) {
+        alert('Sua sessão expirou. Por favor, faça login novamente.');
+        window.location.href = '/client/acesso.html';
+        return;
+      }
+
       const nomes = document.querySelectorAll('.nome-pass');
       const idades = document.querySelectorAll('.idade-pass');
 
       for (let i = 0; i < nomes.length; i++) {
         if (nomes[i].value.trim() === '' || idades[i].value.trim() === '') {
-          alert('Preencha todos os dados dos passageiros!');
+          mostrarResultado('Preencha todos os dados dos passageiros!', 'error');
           return;
         }
       }
 
       const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
       if (assentosSelecionados.length === 0) {
-        alert('Selecione pelo menos 1 assento!');
+        mostrarResultado('Selecione pelo menos 1 assento!', 'error');
+        return;
+      }
+
+      if (assentosSelecionados.length !== nomes.length) {
+        mostrarResultado('Selecione exatamente ' + nomes.length + ' assento(s)!', 'error');
         return;
       }
 
@@ -325,8 +797,8 @@
       window.scrollTo(0, 0);
     }
 
-    // Destinos populares
-    (function popularAnos() {
+    // Popular anos de validade do cartão
+    function popularAnos() {
       const select = document.getElementById('ano-validade');
       const atual = new Date().getFullYear();
       for (let i = 0; i <= 10; i++) {
@@ -336,40 +808,55 @@
         opt.textContent = ano;
         select.appendChild(opt);
       }
-    })();
+    }
 
-    // Alternar formas de pagamento
-    const radios = document.querySelectorAll('input[name="pag"]');
-    const secoes = document.querySelectorAll('.form-section');
-    radios.forEach(radio => {
-      radio.addEventListener('change', e => {
-        secoes.forEach(sec => sec.classList.remove('active'));
-        document.querySelector('#sec-' + e.target.value).classList.add('active');
+    // Configurar formas de pagamento
+    function configurarPagamentos() {
+      // Alternar formas de pagamento
+      const radios = document.querySelectorAll('input[name="pag"]');
+      const secoes = document.querySelectorAll('.form-section');
+      
+      radios.forEach(radio => {
+        radio.addEventListener('change', e => {
+          secoes.forEach(sec => sec.classList.remove('active'));
+          document.querySelector('#sec-' + e.target.value).classList.add('active');
+        });
       });
-    });
 
-    // Botões de pagamento
-    document.getElementById('btn-cartao').addEventListener('click', ()=>{
-      document.getElementById('resultado').textContent = 'Pagamento com cartão processado!';
-    });
+      // Botões de pagamento
+      document.getElementById('btn-cartao').addEventListener('click', () => {
+        mostrarResultado('Pagamento com cartão processado com sucesso!', 'success');
+      });
 
-    document.getElementById('btn-pix').addEventListener('click', ()=>{
-      document.getElementById('resultado').textContent = 'Pagamento Pix confirmado!';
-    });
+      document.getElementById('btn-pix').addEventListener('click', () => {
+        mostrarResultado('Pagamento Pix confirmado! Aguarde a confirmação.', 'success');
+      });
 
-    document.getElementById('btn-boleto').addEventListener('click', ()=>{
-      document.getElementById('boleto-info').style.display = 'block';
-      document.getElementById('resultado').textContent = 'Boleto gerado com sucesso!';
-    });
+      document.getElementById('btn-boleto').addEventListener('click', () => {
+        document.getElementById('boleto-info').style.display = 'block';
+        mostrarResultado('Boleto gerado com sucesso! Pague em até 2 dias úteis.', 'success');
+      });
+    }
 
-    //  Função do botão voltar
+    // Função do botão voltar
     function voltarReserva() {
       document.getElementById('pagamento-container').style.display = 'none';
       document.getElementById('reserva-container').style.display = 'block';
       window.scrollTo(0, 0);
     }
 
+    // Mostrar resultado
+    function mostrarResultado(mensagem, tipo) {
+      const resultado = document.getElementById('resultado');
+      resultado.textContent = mensagem;
+      resultado.className = tipo;
+      resultado.style.display = 'block';
+      
+      setTimeout(() => {
+        resultado.style.display = 'none';
+      }, 5000);
+    }
   </script>
-
+  <!-- -->
 </body>
 </html>

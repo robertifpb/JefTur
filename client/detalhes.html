@@ -1,221 +1,701 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalhes da Viagem - [JF Tur]</title>
-
+  <link rel="icon" href="/assets/icons/favicon_home.png" type="image/x-icon">
+  <title>Detalhes de viagens | JF Tur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Estilos CSS -->
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      background: linear-gradient(to bottom right, #ffffff, #f3f3f3);
-      color: #333;
-    }
 
-    header {
-      background-color: #001f3f;
-      color: #fff;
-      text-align: center;
-      padding: 20px 0;
+  /* Reset de estilos básicos e Suavização */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+    /* Rolagem suave na página */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Variáveis de cores */
+  :root {
+    --primary-color: #1a73e8;
+    --secondary-color: #6c8ef5;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --promo-badge-background: #ff6b6b;
+    --input-background: #f9f9f9;
+    --input-border: #ddd;
+    --input-focus-border: #1a73e8;
+    --btn-hover-color: #0d62d9;
+    --white-color-user: white;
+    --footer-color: #e0f7fa;
+    --rating-color: #ffc107;
+  }
+  
+  /* Estilos do corpo */
+  body {
+    background: linear-gradient(135deg, var(--background-color) 0%, #c3cfe2 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  
+  /* Estilo do container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Header Styles */
+  header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white-color-user);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: var(--white-color-user);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0f7fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Estilo da barra de navegação */
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  nav a {
+    color: var(--white-color-user);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  /* Top Bar */
+  .top-bar {
+    background: var(--white-color-user);
+    padding: 2rem 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .top-bar h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .back-btn {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .back-btn:hover {
+    background: var(--btn-hover-color);
+  }
+  
+  /* Detalhes da viagem */
+  .destination-detail {
+    background: var(--white-color-user);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .destination-detail:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+  
+  .detail-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .detail-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .detail-image:hover {
+    transform: scale(1.02);
+  }
+  
+  .detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    
+  }
+  .detail-info h2 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .detail-info p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .rating-stars {
+    color: var(--rating-color);
+    font-size: 1.2rem;
+  }
+  
+  .rating-value {
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .price-tag {
+    background: var(--promo-badge-background);
+    color: var(--white-color-user);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .package-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .package-option {
+    background: var(--input-background);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+  }
+  
+  .package-option h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .reserve-btn {
+    background: var(--promo-badge-background);
+    color: var(--white-color-user);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+  }
+  
+  .reserve-btn:hover {
+    background: #ff8787;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 107, 107, 0.3);
+  }
+  
+  .login-required {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    color: #856404;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  .login-required a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .login-required a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Rodapé */
+  footer {
+    background: var(--primary-color);
+    color: var(--white-color-user);
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-column h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .footer-column ul {
+    list-style: none;
+  }
+  
+  .footer-column ul li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .footer-column ul li a {
+    color: var(--footer-color);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-column ul li a:hover {
+    color: var(--white-color-user);
+  }
+  
+  /* Ícones de redes sociais */
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--white-color-user);
+    transition: background 0.3s;
+  }
+  
+  .social-icons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Estilo do footer final */
+  .copyright {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--footer-color);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
     }
-
-    header h1 {
-      font-size: 1.8em;
-      margin: 0;
+  
+    nav {
+      flex-wrap: wrap;
+      justify-content: center;
     }
-
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
+  
+    .detail-content {
+      grid-template-columns: 1fr;
     }
-
-    .destination-detail {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      padding: 20px;
-      display: flex;
-      gap: 20px;
+  
+    .detail-image {
+      height: 250px;
     }
-
-    .destination-detail img {
-      width: 300px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .details {
-      flex: 1;
-    }
-
-    .details h2 {
-      font-size: 2em;
-      color: #001f3f;
-      margin-bottom: 10px;
-    }
-
-    .details p {
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .details .stars {
-      color: #ffb800;
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-
-    .details .price {
-      font-size: 1.3em;
-      font-weight: bold;
-      color: #001f3f;
-      margin-top: 15px;
-    }
-
-    .details .package {
-      font-size: 1.1em;
-      color: #555;
-      margin-top: 5px;
-    }
-
-    .back-btn {
-      background-color: #001f3f;
-      border: none;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background-color 0.3s;
-      margin-top: 20px;
-    }
-
-    .back-btn:hover {
-      background-color: #003366;
-    }
-
-    .reserve-btn {
-      background-color: #ffb800;
-      border: none;
-      color: #001f3f;
-      padding: 12px 24px;
-      font-size: 1.1em;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 20px;
-    }
-
-    .reserve-btn:hover {
-      background-color: #ffd34e;
-    }
+  }
   </style>
-</head>
-
-<body>
-
-  <header>
-    <h1>Detalhes da Viagem</h1>
-  </header>
-
-  <div class="container">
-    <!-- Aqui vamos exibir os detalhes da viagem -->
-    <div id="destination-detail" class="destination-detail">
-      <!-- As informações da viagem serão carregadas aqui dinamicamente -->
-    </div>
-
-    <div class="back-btn-container">
-      <button class="back-btn" onclick="window.location.href='resultados.html'">⬅ Voltar à Página de Resultados</button>
-    </div>
-  </div>
-
-  <script>
-    // Pega o parâmetro 'destino' da URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const destino = urlParams.get('destino'); // Recupera o destino da URL
-
-    // Dados simulados para as viagens 
-    const destinos = {
-      rio: {
-        nome: "Rio de Janeiro",
-        descricao: "Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.",
-        imagem: "img/rio_imagem.jpg",
-        preco: "R$ 900",
-        pacote: "Pacote Praia e Cristo - 3 dias",
-        pacotePremium: "Pacote Completo (Hotel + Passeios) - 5 dias",
-        estrelas: 5
-      },
-      salvador: {
-        nome: "Salvador",
-        descricao: "Conheça a rica história, a música e a culinária única de Salvador.",
-        imagem: "images/salvador.jpg",
-        preco: "R$ 1.200",
-        pacote: "Pacote Histórico - 4 dias",
-        pacotePremium: "Pacote Premium (Hotel + Tours) - 6 dias",
-        estrelas: 4
-      },
-      florianopolis: {
-        nome: "Florianópolis",
-        descricao: "Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.",
-        imagem: "images/florianopolis.jpg",
-        preco: "R$ 1.100",
-        pacote: "Pacote Básico - 4 dias",
-        pacotePremium: "Pacote Luxo - 7 dias",
-        estrelas: 5
-      },
-      chapada: {
-        nome: "Chapada dos Veadeiros",
-        descricao: "Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!",
-        imagem: "images/chapada_image.jpg",
-        preco: "R$ 850",
-        pacote: "Pacote Aventura - 4 dias",
-        pacotePremium: "Pacote Completo (Trilhas + Cachoeiras) - 5 dias",
-        estrelas: 4
-      },
-      // Adicione os outros destinos conforme necessário
-    };
-
-    // Função para exibir os detalhes da viagem
-    function exibirDetalhes(destino) {
-      const viagem = destinos[destino]; // Pega os dados da viagem com base no destino
-
-      if (viagem) {
-        let estrelasHTML = '';
-        for (let i = 0; i < viagem.estrelas; i++) {
-          estrelasHTML += '⭐'; // Adiciona uma estrela para cada avaliação
-        }
-
-        document.getElementById('destination-detail').innerHTML = `
-          <img src="${viagem.imagem}" alt="${viagem.nome}" />
-          <div class="details">
-            <h2>${viagem.nome}</h2>
-            <p>${viagem.descricao}</p>
-            <div class="stars">${estrelasHTML}</div>
-            <p class="price">Preço: ${viagem.preco}</p>
-            <p class="package">${viagem.pacote}</p>
-            <p class="package">${viagem.pacotePremium}</p>
-            <a href="pagamento.html" class="reserve-btn">Reservar Agora</a>
+  <!-- -->
+  </head>
+  
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="navbar container">
+        <div class="logo">
+          <div class="logo-placeholder">
+            <i class="fas fa-plane" style="color: #027581; font-size: 1.5rem;"></i>
           </div>
-        `;
-      } else {
-        document.getElementById('destination-detail').innerHTML = '<p>Viagem não encontrada.</p>';
+          <span class="logo-text">JF Turismo</span>
+        </div>
+        <nav>
+          <a href="/home.html">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </a>
+          <a href="/client/destinos.html">
+            <i class="fas fa-map-marked-alt"></i>
+            <span>Destinos</span>
+          </a>
+          <a href="/client/cadastro.html">
+            <i class="fas fa-id-card"></i>
+            <span>Criar uma conta</span>
+          </a>
+          <a href="/client/acesso.html">
+            <i class="fas fa-user-circle"></i>
+            <span>Acesso do Cliente</span>
+          </a>
+          <a href="/admin/login.html">
+            <i class="fas fa-lock"></i>
+            <span>Acesso Restrito</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+  
+    <!-- Barra superior -->
+    <div class="top-bar">
+      <div class="container">
+        <h2>Detalhes da Viagem</h2>
+        <button class="back-btn" onclick="window.location.href='destinos.html'">
+          <i class="fas fa-arrow-left"></i>
+          Voltar aos Destinos
+        </button>
+      </div>
+    </div>
+  
+    <div class="container">
+      <!-- Detalhes da viagem -->
+      <div id="destination-detail" class="destination-detail">
+        <!-- As informações da viagem serão carregadas aqui dinamicamente -->
+      </div>
+    </div>
+  
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>JF Turismo</h3>
+            <p>Sua agência de viagens de confiança, levando você aos melhores destinos com segurança e qualidade.</p>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+  
+          <div class="footer-column">
+            <h3>Links Rápidos</h3>
+            <ul>
+              <li><a href="/home.html">Home</a></li>
+              <li><a href="/client/destinos.html">Destinos</a></li>
+              <li><a href="/client/cadastro.html">Criar uma conta</a></li>
+              <li><a href="/client/pagamento.html">Reservas e Pagamentos</a></li>
+              <li><a href="#">Contato</a></li>
+            </ul>
+          </div>
+  
+          <div class="footer-column">
+            <h3>Contato</h3>
+            <ul>
+              <li><i class="fas fa-map-marker-alt"></i> Rua das Viagens, 123 - Centro</li>
+              <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+              <li><i class="fas fa-envelope"></i> contato@jfturismo.com</li>
+              <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
+            </ul>
+          </div>
+        </div>
+  
+        <div class="copyright">
+          <p>&copy; 2025 JF Turismo. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- -->
+    <script>
+      // Pega o parâmetro 'destino' da URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const destino = urlParams.get('destino'); 
+
+      // Dados simulados para as viagens 
+      const destinos = {
+        rio: {
+          nome: "Rio de Janeiro",
+          descricao: "Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca. O Rio de Janeiro oferece uma experiência única com suas paisagens deslumbrantes, vida noturna animada e atrações culturais imperdíveis.",
+          imagem: "/assets/images/destinos/rio_de_janeiro.webp",
+          preco: "R$ 900",
+          pacote: "Pacote Praia e Cristo - 3 dias",
+          pacotePremium: "Pacote Completo (Hotel + Passeios) - 5 dias",
+          estrelas: 5,
+          avaliacao: "5.0"
+        },
+        salvador: {
+          nome: "Salvador",
+          descricao: "Conheça a rica história, a música e a culinária única de Salvador. Explore o Pelourinho, desfrute da energia do Olodum e mergulhe na cultura afro-brasileira desta cidade histórica.",
+          imagem: "/assets/images/destinos/salvador.webp",
+          preco: "R$ 1.200",
+          pacote: "Pacote Histórico - 4 dias",
+          pacotePremium: "Pacote Premium (Hotel + Tours) - 6 dias",
+          estrelas: 4,
+          avaliacao: "4.8"
+        },
+        florianopolis: {
+          nome: "Florianópolis",
+          descricao: "Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis. Conhecida como 'Ilha da Magia', oferece mais de 40 praias, lagoas e trilhas para todos os gostos.",
+          imagem: "/assets/images/destinos/florianópolis.webp",
+          preco: "R$ 1.100",
+          pacote: "Pacote Básico - 4 dias",
+          pacotePremium: "Pacote Luxo - 7 dias",
+          estrelas: 5,
+          avaliacao: "4.6"
+        },
+        chapada: {
+          nome: "Chapada dos Veadeiros",
+          descricao: "Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais! Um paraíso ecológico no coração do Brasil, perfeito para amantes da natureza e aventura.",
+          imagem: "/assets/images/destinos/chapada_veadeiros.webp",
+          preco: "R$ 1.200",
+          pacote: "Pacote Aventura - 4 dias",
+          pacotePremium: "Pacote Completo (Trilhas + Cachoeiras) - 5 dias",
+          estrelas: 4,
+          avaliacao: "4.5"
+        },
+        fortaleza: {
+          nome: "Fortaleza",
+          descricao: "Descubra as praias de areia branca e a cultura vibrante de Fortaleza. Conheça as dunas de Genipabu, o Beach Park e prove a deliciosa culinária local à base de frutos do mar.",
+          imagem: "/assets/images/destinos/fortaleza.webp",
+          preco: "R$ 750",
+          pacote: "Pacote Praia - 4 dias",
+          pacotePremium: "Pacote Completo (Praias + Dunas) - 6 dias",
+          estrelas: 4,
+          avaliacao: "4.2"
+        },
+        gramado: {
+          nome: "Gramado",
+          descricao: "Desfrute do charme europeu, gastronomia e eventos culturais em Gramado. Conhecida como a 'Suíça Brasileira', oferece paisagens encantadoras, chocolates artesanais e o famoso Natal Luz.",
+          imagem: "/assets/images/destinos/gramado.webp",
+          preco: "R$ 1.500",
+          pacote: "Pacote Romântico - 3 dias",
+          pacotePremium: "Pacote Premium (Gastronomia + Cultura) - 5 dias",
+          estrelas: 5,
+          avaliacao: "4.9"
+        },
+        recife: {
+          nome: "Recife",
+          descricao: "Explore a rica história, cultura e praias urbanas de Recife. Conheça o Marco Zero, o Instituto Ricardo Brennand, o Recife Antigo e as belas praias como Boa Viagem.",
+          imagem: "/assets/images/destinos/recife-pe.webp",
+          preco: "R$ 850",
+          pacote: "Pacote Histórico - 4 dias",
+          pacotePremium: "Pacote Completo (História + Praias) - 6 dias",
+          estrelas: 4,
+          avaliacao: "4.1"
+        },
+        curitiba: {
+          nome: "Curitiba",
+          descricao: "Conheça os parques, a arquitetura moderna e a cultura diversificada de Curitiba. Uma cidade planejada com excelente qualidade de vida, jardins botânicos e museus interessantes.",
+          imagem: "/assets/images/destinos/curitiba.webp",
+          preco: "R$ 700",
+          pacote: "Pacote Urbano - 3 dias",
+          pacotePremium: "Pacote Completo (Parques + Cultura) - 5 dias",
+          estrelas: 5,
+          avaliacao: "4.4"
+        },
+        joaopessoa: {
+          nome: "João Pessoa",
+          descricao: "Viva a energia contagiante de João Pessoa, com suas festas, culinária e praias incríveis. A cidade mais oriental das Américas oferece belas praias, cultura rica e o famoso pôr do sol na Ponta do Seixas.",
+          imagem: "/assets/images/destinos/joao_pessoa.webp",
+          preco: "R$ 150",
+          pacote: "Pacote Básico - 3 dias",
+          pacotePremium: "Pacote Completo (Praias + Cultura) - 5 dias",
+          estrelas: 5,
+          avaliacao: "4.7"
+        },
+        manaus: {
+          nome: "Manaus",
+          descricao: "Explore a Amazônia a partir de Manaus, com sua rica biodiversidade e cultura única. Conheça o Teatro Amazonas, o Encontro das Águas e faça passeios pela floresta amazônica.",
+          imagem: "/assets/images/destinos/manaus.webp",
+          preco: "R$ 1.300",
+          pacote: "Pacote Amazônia - 4 dias",
+          pacotePremium: "Pacote Completo (Floresta + Cultura) - 7 dias",
+          estrelas: 4,
+          avaliacao: "4.3"
+        },
+        portoseguro: {
+          nome: "Porto Seguro",
+          descricao: "Desfrute das praias paradisíacas e da vida noturna animada de Porto Seguro. Berço do Brasil, oferece belas praias, resorts all-inclusive e a famosa Passarela do Álcool.",
+          imagem: "/assets/images/destinos/porto_seguro.webp",
+          preco: "R$ 1.000",
+          pacote: "Pacote Praia - 4 dias",
+          pacotePremium: "Pacote Completo (Praias + História) - 6 dias",
+          estrelas: 4,
+          avaliacao: "4.5"
+        },
+        caldasnovas: {
+          nome: "Caldas Novas",
+          descricao: "Relaxe nas águas termais e aproveite os parques aquáticos de Caldas Novas. Conhecida como a maior estância hidrotermal do mundo, perfeita para famílias e casais.",
+          imagem: "/assets/images/destinos/caldas_novas.webp",
+          preco: "R$ 650",
+          pacote: "Pacote Relax - 3 dias",
+          pacotePremium: "Pacote Completo (Termas + Parques) - 5 dias",
+          estrelas: 5,
+          avaliacao: "4.8"
+        },
+      };
+
+      // Função para verificar se o usuário está logado
+      function verificarLogin() {
+        const usuarioLogado = localStorage.getItem('usuarioLogado');
+        return usuarioLogado === 'true';
       }
-    }
 
-    // Chama a função para exibir os detalhes da viagem
-    if (destino) {
-      exibirDetalhes(destino); // Exibe os detalhes da viagem selecionada
-    } else {
-      document.getElementById('destination-detail').innerHTML = '<p>Erro: Destino não especificado.</p>';
-    }
-  </script>
-</body>
+      // Função para redirecionar para login com destino
+      function redirecionarParaLogin(destino) {
 
+        sessionStorage.setItem('destinoPagamento', destino);
+        window.location.href = '/client/acesso.html';
+      }
+
+      // Função para exibir os detalhes da viagem
+      function exibirDetalhes(destino) {
+        const viagem = destinos[destino]; 
+
+        if (viagem) {
+          let estrelasHTML = '';
+          for (let i = 0; i < viagem.estrelas; i++) {
+            estrelasHTML += '<i class="fas fa-star"></i>';
+          }
+
+          document.getElementById('destination-detail').innerHTML = `
+            <div class="detail-content">
+              <div>
+                <img src="${viagem.imagem}" alt="${viagem.nome}" class="detail-image" />
+              </div>
+              <div class="detail-info">
+                <h2>${viagem.nome}</h2>
+                <div class="rating">
+                  <div class="rating-stars">
+                    ${estrelasHTML}
+                  </div>
+                  <span class="rating-value">${viagem.avaliacao}</span>
+                </div>
+                <p>${viagem.descricao}</p>
+                <div class="price-tag">A partir de ${viagem.preco}</div>
+                <div class="package-options">
+                  <div class="package-option">
+                    <h4>${viagem.pacote}</h4>
+                    <p>Inclui: Hospedagem, café da manhã e passeios selecionados</p>
+                  </div>
+                  <div class="package-option">
+                    <h4>${viagem.pacotePremium}</h4>
+                    <p>Inclui: Hospedagem premium, café da manhã, almoço, jantar e todos os passeios</p>
+                  </div>
+                </div>
+                <button class="reserve-btn" onclick="reservarViagem('${destino}')">Reservar Agora</button>
+                <div class="login-required">
+                  <p><i class="fas fa-info-circle"></i> Para realizar a reserva, é necessário <a href="/client/acesso.html">fazer login</a> ou <a href="/client/cadastro.html">criar uma conta</a>.</p>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          document.getElementById('destination-detail').innerHTML = '<p>Viagem não encontrada.</p>';
+        }
+      }
+
+      // Função para processar a reserva
+      function reservarViagem(destino) {
+        if (verificarLogin()) {
+          window.location.href = `/client/pagamento.html?destino=${destino}`;
+        } else {
+          redirecionarParaLogin(destino);
+        }
+      }
+
+      // Chama a função para exibir os detalhes da viagem
+      if (destino) {
+        exibirDetalhes(destino);
+      } else {
+        document.getElementById('destination-detail').innerHTML = '<p>Erro: Destino não especificado.</p>';
+      }
+    </script>
+    <!-- -->
+  </body>
+  
 </html>
