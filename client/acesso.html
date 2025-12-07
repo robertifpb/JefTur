@@ -451,20 +451,58 @@ body,
         </div>
     </div>
     <script>
-        // Função de ocultar/mostrar senha
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const passwordIcon = document.querySelector('.password-toggle i');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordIcon.className = 'fa-sharp fa-solid fa-eye';
-            } else {
-                passwordInput.type = 'password';
-                passwordIcon.className = 'fa-sharp fa-solid fa-eye-slash';
-            }
-        }
-
+  // Função mostrar/ocultar senha (manter)
+  function togglePassword() { /* ... */ }
+  
+  // Verificar se já está logado
+  async function verificarSessao() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      window.location.href = '/home.html';
+    }
+  }
+  
+  // Login
+  document.querySelector('.btn').addEventListener('click', async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('password').value;
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+    
+    if (error) {
+      alert(`❌ Erro: ${error.message}`);
+      return;
+    }
+    
+    // Verificar se é cliente
+    const { data: cliente } = await supabase
+      .from('clientes')
+      .select('id, nome, sobrenome')
+      .eq('auth_user_id', data.user.id)
+      .single();
+    
+    if (!cliente) {
+      await supabase.auth.signOut();
+      alert('❌ Conta não encontrada no sistema de clientes');
+      return;
+    }
+    
+    // Salvar dados
+    sessionStorage.setItem('usuarioLogado', 'true');
+    sessionStorage.setItem('clienteId', cliente.id);
+    sessionStorage.setItem('clienteNome', `${cliente.nome} ${cliente.sobrenome}`);
+    
+    // Redirecionar
+    window.location.href = '/home.html';
+  });
+  
+  // Executar ao carregar
+  document.addEventListener('DOMContentLoaded', verificarSessao);
     </script>
 </body>
 </html>
