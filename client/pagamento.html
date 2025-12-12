@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/assets/icons/favicon_home.png" type="image/x-icon">
   <title>Reservas e Pagamentos | JF Tur</title>
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/config.js"></script>
+  <!-- Fontes e Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <!-- Estilos CSS -->
   <style>
-
   /* Reset de estilos básicos e Suavização */
   * {
     margin: 0;
@@ -635,228 +638,91 @@
       </div>
     </div>
   </div>
-
   <!-- Scripts -->
-  <script>
-    // Verificar se o usuário está logado
-    function verificarLogin() {
-      const usuarioLogado = localStorage.getItem('usuarioLogado');
-      return usuarioLogado === 'true';
-    }
-
-    // Verificar login ao carregar a página
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!verificarLogin()) {
-        document.getElementById('login-required').style.display = 'block';
-        document.getElementById('reserva-container').style.display = 'none';
-      } else {
-        document.getElementById('login-required').style.display = 'none';
-        document.getElementById('reserva-container').style.display = 'block';
-        
-        // Carregar informações do destino da URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const destino = urlParams.get('destino');
-        
-        if (destino) {
-          carregarDestino(destino);
-        }
+<script>
+  // Dados
+  const DESTINOS = {
+      rio: { nome: "Rio", preco: 900 },
+      salvador: { nome: "Salvador", preco: 1200 }
+  };
+  // Inicialização
+  document.addEventListener('DOMContentLoaded', async () => {
+      // Verificar login
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+          document.getElementById('login-required').style.display = 'block';
+          return;
       }
       
-      // Inicializar componentes
-      popularAnos();
+      document.getElementById('reserva-container').style.display = 'block';
+      
+      // Carregar destino da URL
+      const destino = new URLSearchParams(window.location.search).get('destino');
+      if (destino && DESTINOS[destino]) {
+          document.getElementById('nome-destino').textContent = DESTINOS[destino].nome;
+          document.getElementById('valor').value = DESTINOS[destino].preco;
+      }
+      
+      // Configurar eventos
+      document.getElementById('numPassageiros').addEventListener('input', gerarCampos);
+      document.querySelector('button[onclick*="validarReserva"]').addEventListener('click', validarReserva);
       criarMapaAssentos();
-      configurarPagamentos();
-    });
+  });
 
-    // Dados simulados dos destinos
-    const destinos = {
-      rio: {
-        nome: "Rio de Janeiro",
-        descricao: "Desfrute das praias icônicas, do Cristo Redentor e da vibrante cultura carioca.",
-        preco: "R$ 900"
-      },
-      salvador: {
-        nome: "Salvador",
-        descricao: "Conheça a rica história, a música e a culinária única de Salvador.",
-        preco: "R$ 1.200"
-      },
-      florianopolis: {
-        nome: "Florianópolis",
-        descricao: "Aproveite as praias paradisíacas e a vida noturna agitada de Florianópolis.",
-        preco: "R$ 1.100"
-      },
-      chapada: {
-        nome: "Chapada dos Veadeiros",
-        descricao: "Explore as belezas naturais da Chapada dos Veadeiros, com trilhas, cachoeiras e muito mais!",
-        preco: "R$ 1.200"
-      }
-    };
-
-    // Carregar informações do destino
-    function carregarDestino(destino) {
-      const viagem = destinos[destino];
-      if (viagem) {
-        document.getElementById('nome-destino').textContent = viagem.nome;
-        document.getElementById('descricao-destino').textContent = viagem.descricao;
-        document.getElementById('preco-destino').textContent = viagem.preco;
-        document.getElementById('valor').value = viagem.preco.replace('R$ ', '');
-      }
-    }
-
-    // Gerar campos dos passageiros
-    function gerarCampos() {
+  // Funções principais
+  function gerarCampos() {
       const num = document.getElementById('numPassageiros').value;
       const container = document.getElementById('passageiros');
       container.innerHTML = '';
       
       for (let i = 1; i <= num; i++) {
-        container.innerHTML += `
-          <div class="passageiro-card">
-            <h4>Passageiro ${i}</h4>
-            <div class="form-group">
-              <label>Nome:</label>
-              <input class="nome-pass" type="text" placeholder="Digite o nome completo" required>
-            </div>
-            <div class="form-group">
-              <label>Idade:</label>
-              <input class="idade-pass" type="number" placeholder="Idade" min="0" max="120" required>
-            </div>
-            <div class="form-group">
-              <label>Tipo de passageiro:</label>
-              <select>
-                <option value="crianca">Criança (0-11)</option>
-                <option value="adolescente">Adolescente (12-17)</option>
-                <option value="adulto">Adulto (18-59)</option>
-                <option value="idoso">Idoso (60+)</option>
-              </select>
-            </div>
-          </div>
-        `;
+          container.innerHTML += `
+              <div class="passageiro-card">
+                  <h4>Passageiro ${i}</h4>
+                  <input class="nome-pass" placeholder="Nome" required>
+                  <input class="idade-pass" type="number" placeholder="Idade" required>
+              </div>
+          `;
       }
-    }
-
-    // Criar mapa de assentos
-    function criarMapaAssentos() {
-      const mapaAssentos = document.getElementById('mapaAssentos');
-      mapaAssentos.innerHTML = '';
-      
-      // Criar alguns assentos ocupados aleatoriamente
-      const assentosOcupados = [3, 7, 12, 18, 23, 29, 34, 40, 45];
-      
-      for (let i = 1; i <= 50; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i;
-        btn.className = 'assento';
-        
-        if (assentosOcupados.includes(i)) {
-          btn.classList.add('ocupado');
-          btn.disabled = true;
-        } else {
-          btn.onclick = () => {
-            btn.classList.toggle('selecionado');
-          };
-        }
-        
-        mapaAssentos.appendChild(btn);
-        if (i % 5 === 0) mapaAssentos.appendChild(document.createElement('br'));
-      }
-    }
-
-    // Validar e avançar para pagamento
-    function validarReserva() {
-      // Verificar se ainda está logado
-      if (!verificarLogin()) {
-        alert('Sua sessão expirou. Por favor, faça login novamente.');
-        window.location.href = '/client/acesso.html';
-        return;
-      }
-
+  }
+  // Validação da reserva
+  function validarReserva() {
       const nomes = document.querySelectorAll('.nome-pass');
-      const idades = document.querySelectorAll('.idade-pass');
-
-      for (let i = 0; i < nomes.length; i++) {
-        if (nomes[i].value.trim() === '' || idades[i].value.trim() === '') {
-          mostrarResultado('Preencha todos os dados dos passageiros!', 'error');
+      const assentos = document.querySelectorAll('.assento.selecionado');
+      
+      if (nomes.length === 0 || !nomes[0].value) {
+          alert('Preencha os dados!');
           return;
-        }
       }
-
-      const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
-      if (assentosSelecionados.length === 0) {
-        mostrarResultado('Selecione pelo menos 1 assento!', 'error');
-        return;
+      
+      if (assentos.length !== nomes.length) {
+          alert(`Selecione ${nomes.length} assento(s)!`);
+          return;
       }
-
-      if (assentosSelecionados.length !== nomes.length) {
-        mostrarResultado('Selecione exatamente ' + nomes.length + ' assento(s)!', 'error');
-        return;
-      }
-
+      
       document.getElementById('reserva-container').style.display = 'none';
       document.getElementById('pagamento-container').style.display = 'block';
-      window.scrollTo(0, 0);
-    }
-
-    // Popular anos de validade do cartão
-    function popularAnos() {
-      const select = document.getElementById('ano-validade');
-      const atual = new Date().getFullYear();
-      for (let i = 0; i <= 10; i++) {
-        const ano = atual + i;
-        const opt = document.createElement('option');
-        opt.value = ano;
-        opt.textContent = ano;
-        select.appendChild(opt);
+  }
+  // Mapa de assentos
+  function criarMapaAssentos() {
+      const mapa = document.getElementById('mapaAssentos');
+      for (let i = 1; i <= 50; i++) {
+          const btn = document.createElement('button');
+          btn.textContent = i;
+          btn.className = 'assento';
+          btn.onclick = () => btn.classList.toggle('selecionado');
+          mapa.appendChild(btn);
+          if (i % 5 === 0) mapa.appendChild(document.createElement('br'));
       }
-    }
-
-    // Configurar formas de pagamento
-    function configurarPagamentos() {
-      // Alternar formas de pagamento
-      const radios = document.querySelectorAll('input[name="pag"]');
-      const secoes = document.querySelectorAll('.form-section');
-      
-      radios.forEach(radio => {
-        radio.addEventListener('change', e => {
-          secoes.forEach(sec => sec.classList.remove('active'));
-          document.querySelector('#sec-' + e.target.value).classList.add('active');
-        });
-      });
-
-      // Botões de pagamento
-      document.getElementById('btn-cartao').addEventListener('click', () => {
-        mostrarResultado('Pagamento com cartão processado com sucesso!', 'success');
-      });
-
-      document.getElementById('btn-pix').addEventListener('click', () => {
-        mostrarResultado('Pagamento Pix confirmado! Aguarde a confirmação.', 'success');
-      });
-
-      document.getElementById('btn-boleto').addEventListener('click', () => {
-        document.getElementById('boleto-info').style.display = 'block';
-        mostrarResultado('Boleto gerado com sucesso! Pague em até 2 dias úteis.', 'success');
-      });
-    }
-
-    // Função do botão voltar
-    function voltarReserva() {
+  }
+  // Compatibilidade
+  window.gerarCampos = gerarCampos;
+  window.validarReserva = validarReserva;
+  window.voltarReserva = () => {
       document.getElementById('pagamento-container').style.display = 'none';
       document.getElementById('reserva-container').style.display = 'block';
-      window.scrollTo(0, 0);
-    }
-
-    // Mostrar resultado
-    function mostrarResultado(mensagem, tipo) {
-      const resultado = document.getElementById('resultado');
-      resultado.textContent = mensagem;
-      resultado.className = tipo;
-      resultado.style.display = 'block';
-      
-      setTimeout(() => {
-        resultado.style.display = 'none';
-      }, 5000);
-    }
-  </script>
-  <!-- -->
+  };
+</script>
+<!-- -->
 </body>
 </html>
