@@ -4,7 +4,7 @@ const SUPABASE_CONFIG = {
   
   // URLs das páginas
   PAGES: {
-    HOME: '/home.html',
+    HOME: '/index.html',
     LOGIN_CLIENTE: '/client/acesso.html',
     LOGIN_ADMIN: '/admin/login.html',
     DASHBOARD_ADMIN: '/admin/dashboard.html',
