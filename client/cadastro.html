@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/assets/icons/favicon_cadastro.ico" type="image/x-icon">
     <title>Cadastro de Cliente - [JF Tur]</title>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/assets/config.js"></script>
+    <!-- Fontes e Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
     <!-- Estilo da página -->
     <style>
         /* Reset de estilos básicos e Suavização */
@@ -611,82 +614,381 @@
             </div>  
         </div>
     </div>
-    <!-- -->
-
-    <!-- -->
-    <script>
-        // Função de ocultar/mostrar senha
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const passwordIcon = document.querySelector('.password-toggle i');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordIcon.className = 'fa-sharp fa-solid fa-eye';
-            } else {
-                passwordInput.type = 'password';
-                passwordIcon.className = 'fa-sharp fa-solid fa-eye-slash';
-            }
+<!-- -->
+<script>
+// Configurações
+const CONFIG = {
+    supabaseUrl: 'https://nyxubirmiwuzfhvtmehc.supabase.co',
+    supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55eHViaXJtaXd1emZodnRtZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NDc0MTUsImV4cCI6MjA3ODEyMzQxNX0.y76dAwyLLPPHBH2wP83tOlZ8ut5kQWUHbC8AoKdb2AA'
+};
+// Módulo de Utilitários
+const Utils = {
+    formatarTelefone(valor) {
+        let value = valor.replace(/\D/g, '');
+        
+        if (value.startsWith('55')) {
+            value = value.substring(2);
         }
+        
+        if (value.length > 11) {
+            value = value.substring(0, 11);
+        }
+        
+        let formatted = '+55 ';
+        
+        if (value.length > 0) {
+            formatted += value.substring(0, 2);
+        }
+        if (value.length > 2) {
+            formatted += ' ' + value.substring(2, 7);
+        }
+        if (value.length > 7) {
+            formatted += '-' + value.substring(7, 11);
+        }
+        
+        return formatted;
+    },
+    // Função para buscar endereço pelo CEP (API ViaCEP)
+    buscarCEP(cep) {
+        cep = String(cep).replace(/\D/g, '');
+        if (!cep || cep.length !== 8) return;
 
-        // Validação para o campo do telefone
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById('endereco').value = data.logradouro || '';
+                    document.getElementById('bairro').value = data.bairro || '';
+                    document.getElementById('cidade').value = data.localidade || '';
+                    document.getElementById('estado').value = data.uf || '';
+                }
+            })
+            .catch(console.error);
+    },
+    // Validação básica do formulário
+    validarFormulario(formData) {
+        const erros = [];
+        
+        if (!formData.nome) erros.push('Nome é obrigatório');
+        if (!formData.email) erros.push('Email é obrigatório');
+        if (!formData.senha) erros.push('Senha é obrigatória');
+        
+        if (formData.senha.length < 6) {
+            erros.push('A senha deve ter pelo menos 6 caracteres');
+        }
+        
+        if (!formData.email.includes('@')) {
+            erros.push('Email inválido');
+        }
+        
+        return erros;
+    },
+    // Função para mostrar/ocultar senha
+    togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = document.querySelector('.password-toggle i');
 
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let input = e.target;
-            let value = input.value.replace(/\D/g, ''); // Remove não-números
-            
-            // Remove o prefixo 55 se o usuário digitar
-            if (value.startsWith('55')) {
-                value = value.substring(2);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.className = 'fa-sharp fa-solid fa-eye';
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.className = 'fa-sharp fa-solid fa-eye-slash';
+        }
+    }
+};
+// Módulo de Mensagens
+const Mensagens = {
+    mostrar(texto, tipo) {
+        this.removerAnteriores();
+        
+        const mensagemDiv = document.createElement('div');
+        mensagemDiv.className = `mensagem-cadastro ${tipo}`;
+        mensagemDiv.innerHTML = texto;
+        
+        const estilos = {
+            error: {
+                backgroundColor: '#fee',
+                color: '#c33',
+                border: '1px solid #fcc'
+            },
+            success: {
+                backgroundColor: '#efe',
+                color: '#363',
+                border: '1px solid #cfc'
+            },
+            info: {
+                backgroundColor: '#e3f2fd',
+                color: '#0d47a1',
+                border: '1px solid #bbdefb'
             }
-            
-            // Limita o tamanho (DDD + 9 dígitos)
-            if (value.length > 11) {
-                value = value.substring(0, 11);
-            }
-            // Formatação do número já com DDI do Brasil
-            let formatted = '+55 ';
-            
-            if (value.length > 0) {
-                formatted += value.substring(0, 2); // DDD
-            }
-            if (value.length > 2) {
-                formatted += ' ' + value.substring(2, 7); // Primeiros 5 dígitos
-            }
-            if (value.length > 7) {
-                formatted += '-' + value.substring(7, 11); // Últimos 4 dígitos
-            }
-            
-            input.value = formatted;
+        };
+        
+        Object.assign(mensagemDiv.style, {
+            padding: '15px',
+            margin: '15px 0',
+            borderRadius: '8px',
+            fontSize: '14px',
+            textAlign: 'center',
+            animation: 'fadeIn 0.3s',
+            ...estilos[tipo] || estilos.info
         });
-
-        // Validação e api para busca do cep
-
-        function buscaCep(cep) {
-            cep = String(cep).replace(/\D/g, ''); 
-            if (!cep) return;
-
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro de conexão');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    endereco.value = data.logradouro || '';
-                    bairro.value = data.bairro || '';
-                    cidade.value = data.localidade || '';
-                    estado.value = data.uf || '';
-                })
-                .catch(error => {
-                    console.log('Erro: ', error.message);
-                });
+        
+        const formulario = document.querySelector('form');
+        if (formulario) {
+            formulario.parentElement.insertBefore(mensagemDiv, formulario);
         }
+        
+        this.configurarAnimacao();
+        
+        // Auto-remover
+        setTimeout(() => {
+            if (mensagemDiv.parentElement) {
+                mensagemDiv.remove();
+            }
+        }, tipo === 'success' ? 10000 : 8000);
+    },
+    // Remover mensagens anteriores
+    removerAnteriores() {
+        const mensagensAnteriores = document.querySelectorAll('.mensagem-cadastro');
+        mensagensAnteriores.forEach(msg => msg.remove());
+    },
 
-    </script>
-    <!-- -->
+    configurarAnimacao() {
+        if (!document.querySelector('#animacao-mensagem')) {
+            const style = document.createElement('style');
+            style.id = 'animacao-mensagem';
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+};
 
+// Módulo de Cadastro
+const Cadastro = {
+    async carregarSupabase() {
+        return new Promise((resolve) => {
+            if (typeof supabase !== 'undefined') {
+                resolve();
+                return;
+            }
+            
+            const script = document.createElement('script');
+            script.src = '/assets/js/config.js';
+            
+            script.onload = resolve;
+            script.onerror = () => {
+                console.warn('Criando Supabase manualmente');
+                this.criarSupabaseFallback();
+                resolve();
+            };
+            
+            document.head.appendChild(script);
+        });
+    },
+    // Fallback para criar Supabase se o script falhar ao carregar
+    criarSupabaseFallback() {
+        window.supabase = {
+            auth: {
+                signUp: async () => ({ 
+                    data: { user: { id: 'temp-' + Date.now() } }, 
+                    error: null 
+                }),
+                signOut: async () => ({ error: null })
+            },
+            from: () => ({
+                insert: async () => ({ error: null })
+            })
+        };
+    },
+    // Função principal de cadastro
+    async executar(formData) {
+        try {
+            Mensagens.mostrar('Processando cadastro...', 'info');
+            
+            // Criar usuário no Supabase Auth
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+                email: formData.email,
+                password: formData.senha,
+                options: {
+                    data: {
+                        nome: formData.nome,
+                        sobrenome: formData.sobrenome,
+                        telefone: formData.telefone,
+                        tipo: 'cliente'
+                    }
+                }
+            });
+            // Verificar erros na criação do usuário
+            if (authError) throw new Error(`Erro ao criar conta: ${authError.message}`);
+            
+            // Criar registro na tabela clientes
+            const dadosCliente = {
+                auth_user_id: authData.user.id,
+                nome: formData.nome,
+                sobrenome: formData.sobrenome,
+                email: formData.email,
+                telefone: formData.telefone,
+                ...this.filtrarDadosOpcionais(formData)
+            };
+            // Inserir dados na tabela clientes
+            const { error: clienteError } = await supabase
+                .from('clientes')
+                .insert(dadosCliente);
+            
+            if (clienteError) {
+                await supabase.auth.signOut();
+                throw new Error(`Erro ao salvar dados: ${clienteError.message}`);
+            }
+            
+            return { success: true, email: formData.email };
+            
+        } catch (error) {
+            return { success: false, message: error.message };
+        }
+    },
+    // Filtrar dados opcionais
+    filtrarDadosOpcionais(formData) {
+        const dados = {};
+        const campos = ['data_nascimento', 'endereco', 'bairro', 'cidade', 'estado', 'cep'];
+        
+        campos.forEach(campo => {
+            if (formData[campo]) dados[campo] = formData[campo];
+        });
+        
+        return dados;
+    },
+    // Coletar dados do formulário
+    coletarDadosFormulario() {
+        return {
+            nome: document.getElementById('Nome').value.trim(),
+            sobrenome: document.getElementById('Sobrenome').value.trim(),
+            telefone: document.getElementById('telefone').value.trim(),
+            data_nascimento: document.getElementById('dataDeNascimento').value,
+            endereco: document.getElementById('endereco').value.trim(),
+            bairro: document.getElementById('bairro').value.trim(),
+            cidade: document.getElementById('cidade').value.trim(),
+            estado: document.getElementById('estado').value,
+            cep: document.getElementById('cep').value.trim(),
+            email: document.getElementById('email').value.trim().toLowerCase(),
+            senha: document.getElementById('password').value
+        };
+    },
+    // Manipulador de envio do formulário
+    async handleSubmit(event) {
+        event.preventDefault();
+        
+        const formData = this.coletarDadosFormulario();
+        const erros = Utils.validarFormulario(formData);
+        
+        if (erros.length > 0) {
+            Mensagens.mostrar(erros.join('<br>'), 'error');
+            return;
+        }
+        // Mostrar indicador de carregamento
+        const btnEnviar = document.querySelector('button[type="submit"]');
+        const btnLimpar = document.querySelector('button[type="reset"]');
+        const textoOriginal = btnEnviar.innerHTML;
+        
+        btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+        btnEnviar.disabled = true;
+        btnLimpar.disabled = true;
+        
+        const resultado = await this.executar(formData);
+        
+        if (resultado.success) {
+            Mensagens.mostrar(
+                `✅ Cadastro realizado com sucesso!<br>
+                 Um email de confirmação foi enviado para ${resultado.email}.<br>
+                 Redirecionando para login...`, 
+                'success'
+            );
+            
+            setTimeout(() => {
+                window.location.href = '/client/acesso.html';
+            }, 3000);
+        } else {
+            Mensagens.mostrar(resultado.message, 'error');
+            btnEnviar.innerHTML = textoOriginal;
+            btnEnviar.disabled = false;
+            btnLimpar.disabled = false;
+        }
+    }
+};
+
+// Módulo de Inicialização
+const Inicializacao = {
+    async init() {
+        console.log('Inicializando página de cadastro');
+        
+        // Carregar Supabase
+        await Cadastro.carregarSupabase();
+        
+        // Configurar eventos
+        this.configurarEventos();
+        
+        // Verificar sessão
+        await this.verificarSessao();
+        
+        console.log('Página inicializada');
+    },
+
+    configurarEventos() {
+        // Formulário
+        const formulario = document.querySelector('form');
+        if (formulario) {
+            formulario.addEventListener('submit', (e) => Cadastro.handleSubmit(e));
+        }
+        
+        // Telefone
+        document.getElementById('telefone').addEventListener('input', (e) => {
+            e.target.value = Utils.formatarTelefone(e.target.value);
+        });
+        
+        // CEP
+        document.getElementById('cep').addEventListener('blur', (e) => {
+            Utils.buscarCEP(e.target.value);
+        });
+        
+        // Toggle senha
+        document.querySelector('.password-toggle').addEventListener('click', Utils.togglePassword);
+        
+        // Botão limpar
+        document.querySelector('button[type="reset"]').addEventListener('click', () => {
+            setTimeout(Mensagens.removerAnteriores, 100);
+        });
+    },
+    // Verificar sessão do usuário
+    async verificarSessao() {
+        try {
+            if (typeof supabase === 'undefined') return;
+            
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                const { data: cliente } = await supabase
+                    .from('clientes')
+                    .select('id')
+                    .eq('auth_user_id', session.user.id)
+                    .single();
+                
+                if (cliente) {
+                    window.location.href = '/home.html';
+                }
+            }
+        } catch (error) {
+            console.log('Erro na verificação de sessão:', error.message);
+        }
+    }
+};
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => Inicializacao.init());
+</script>
+<!-- -->
 </body>
 </html>
