@@ -21,41 +21,41 @@ const dashboardData = {
     },
     topPackages: [
         {
-            name: 'Praia & Aventura',
-            duration: '7 dias / 6 noites',
-            destination: 'Fernando de Noronha',
+            name: 'Praia e Cristo',
+            duration: '3 dias / 3 noites',
+            destination: 'Rio de Janeiro',
             sales: 45,
             revenue: 127350,
             occupancy: 85
         },
         {
-            name: 'Romance na Serra',
-            duration: '5 dias / 4 noites',
-            destination: 'Gramado',
+            name: 'Pacote Histórico',
+            duration: '4 dias / 4 noites',
+            destination: 'Salvador',
             sales: 38,
             revenue: 91200,
             occupancy: 92
         },
         {
-            name: 'Ecoturismo Total',
-            duration: '6 dias / 5 noites',
-            destination: 'Bonito',
+            name: 'Pacote Básico',
+            duration: '4 dias / 4 noites',
+            destination: 'Florianópolis',
             sales: 32,
             revenue: 86400,
             occupancy: 78
         },
         {
-            name: 'Paraíso das Dunas',
-            duration: '4 dias / 3 noites',
-            destination: 'Jericoacoara',
+            name: 'Pacote Aventura',
+            duration: '4 dias / 4 noites',
+            destination: 'Chapada dos Veadeiros',
             sales: 28,
             revenue: 67200,
             occupancy: 65
         },
         {
-            name: 'Aventura na Chapada',
-            duration: '5 dias / 4 noites',
-            destination: 'Chapada Diamantina',
+            name: 'Pacote Praia',
+            duration: '4 dias / 4 noites',
+            destination: 'Fortaleza',
             sales: 25,
             revenue: 62500,
             occupancy: 70
