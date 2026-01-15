@@ -4,11 +4,11 @@ const SUPABASE_CONFIG = {
   
   // URLs das páginas
   PAGES: {
-    HOME: '/index.html',
-    LOGIN_CLIENTE: '/client/acesso.html',
-    LOGIN_ADMIN: '/admin/login.html',
-    DASHBOARD_ADMIN: '/admin/dashboard.html',
-    CADASTRO: '/client/cadastro.html'
+    HOME: '../index.html',
+    LOGIN_CLIENTE: '../client/acesso.html',
+    LOGIN_ADMIN: '../admin/login.html',
+    DASHBOARD_ADMIN: '../admin/dashboard.html',
+    CADASTRO: '../client/cadastro.html'
   },
   
 };
