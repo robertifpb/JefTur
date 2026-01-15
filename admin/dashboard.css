@@ -3,31 +3,41 @@
 
 /* Variáveis de cores */
 :root {
-    --main-color: #027581;
-    --main-color-dark: #015a63;
-    --main-color-light: #0295a4;
-    --color-dark: #1D2231;
-    --color-dark-light: #2a324d;
+    /* Brand */
+    --main-color: #0E7490;        /* teal moderno */
+    --main-color-dark: #155E75;
+    --main-color-light: #38BDF8;
+
+    /* Neutros */
+    --color-dark: #0F172A;
+    --color-dark-light: #334155;
     --color-light: #ffffff;
-    --text-grey: #8390A2;
-    --text-grey-light: #a8b4c5;
-    --border-color: #e1e8ed;
-    --border-color-dark: #bdc3c7;
-    --hover-color: #2980b9;
-    --background-dash: #f8fafc;
+
+    /* Textos */
+    --text-grey: #64748B;
+    --text-grey-light: #94A3B8;
+
+    /* Bordas e fundos */
+    --border-color: #E2E8F0;
+    --background-dash: #F8FAFC;
     --background-card: #ffffff;
-    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
-    --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.12);
-    --shadow-strong: 0 8px 25px rgba(0, 0, 0, 0.15);
-    --success-color: #27ae60;
-    --warning-color: #f39c12;
-    --danger-color: #e74c3c;
-    --info-color: #3498db;
+    --background-color: #F1F5F9;
+
+    /* Estados */
+    --success-color: #22C55E;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --info-color: #3B82F6;
+
+    /* Sombras mais suaves */
+    --shadow-light: 0 4px 20px rgba(15, 23, 42, 0.06);
+    --shadow-medium: 0 8px 30px rgba(15, 23, 42, 0.08);
+    --shadow-strong: 0 15px 40px rgba(15, 23, 42, 0.12);
 }
 
 /* Reset e configurações base */
 * {
-    font-family: 'Poppins', 'Noto Sans', sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -40,7 +50,7 @@ html {
 }
 
 body {
-    background-color: var(--background-dash);
+    background: linear-gradient(135deg, var(--background-color) 0%, #c3cfe2 100%);
     color: var(--color-dark);
     line-height: 1.6;
 }
@@ -53,7 +63,7 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
-    background: linear-gradient(180deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+    background: var(--color-dark); 
     color: var(--color-light);
     overflow-y: auto;
     transition: all 0.3s ease;
@@ -104,26 +114,21 @@ body {
 }
 
 .sidebar a {
+    border-radius: 10px;
+    margin: 0 1rem;
     display: flex;
     align-items: center;
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
     padding: 0.8rem 1.5rem;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
     border-left: 3px solid transparent;
 }
 
-.sidebar a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--color-light);
-    border-left-color: var(--color-light);
-}
-
+.sidebar a:hover,
 .sidebar a.active {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--color-light);
-    border-left-color: var(--color-light);
-    font-weight: 500;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: none;
 }
 
 .sidebar a span:last-child {
@@ -150,7 +155,7 @@ body {
     position: relative;
     margin-left: 240px;
     min-height: 100vh;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .sidebar.collapsed + .main-content {
@@ -172,7 +177,7 @@ header {
     justify-content: space-between;
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow-light);
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .sidebar.collapsed ~ header {
@@ -197,6 +202,9 @@ header {
 }
 
 .search-wrapper {
+    background: #F8FAFC;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     border: 1px solid var(--border-color-dark);
@@ -207,7 +215,7 @@ header {
     flex: 1;
     max-width: 500px;
     margin-right: 2rem;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .search-wrapper:hover {
@@ -217,7 +225,7 @@ header {
 
 .search-wrapper:focus-within {
     border-color: var(--main-color);
-    box-shadow: 0 0 0 3px rgba(2, 117, 129, 0.2);
+    box-shadow: 0 0 0 4px rgba(14, 116, 144, 0.15);;
 }
 
 .search-wrapper input {
@@ -387,7 +395,7 @@ header {
     padding: 0.8rem 1.5rem;
     color: var(--color-dark);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
     font-size: 0.9rem;
 }
 
@@ -477,14 +485,22 @@ main {
     gap: 0.8rem;
 }
 
-.btn-small {
+button,
+.btn-small,
+.btn-wish {
+    border-radius: 999px;
+    letter-spacing: 0.3px;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
     border: none;
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+button:hover {
+    transform: translateY(-2px);
 }
 
 .btn-small:not(.outline) {
@@ -554,7 +570,7 @@ main {
     height: 100%;
     background: var(--success-color);
     border-radius: 5px;
-    transition: width 0.5s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
     width: 0%;
 }
 
@@ -576,7 +592,7 @@ main {
     background: var(--background-card);
     border-radius: 12px;
     box-shadow: var(--shadow-light);
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
     overflow: hidden;
     border: 1px solid var(--border-color);
 }
@@ -630,7 +646,7 @@ main {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .card-footer a:hover {
@@ -638,7 +654,7 @@ main {
     gap: 0.8rem;
 }
 
-/* Gráficos Section */
+/* Charts das receitas */
 .charts-section {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -646,24 +662,40 @@ main {
     margin-bottom: 2.5rem;
 }
 
+/* Card do gráfico */
 .chart-card {
     background: var(--background-card);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 1.8rem;
-    box-shadow: var(--shadow-light);
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-light);
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
+.chart-card:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+/* Título */
 .chart-card h3 {
     color: var(--color-dark);
     margin-bottom: 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
+    letter-spacing: -0.3px;
 }
 
 .chart-container {
-    height: 300px;
     position: relative;
+    height: 320px;
+    padding: 1rem;
+    border-radius: 14px;
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0)
+    );
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 /* Seção recente */
@@ -684,7 +716,7 @@ main {
     padding: 1.8rem;
     box-shadow: var(--shadow-light);
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .activity-card:hover, .summary:hover {
@@ -742,7 +774,7 @@ tr:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .view-all-link:hover {
@@ -764,7 +796,7 @@ tr:hover {
     border-radius: 10px;
     background: var(--background-dash);
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .summary-single:hover {
@@ -1067,7 +1099,7 @@ tr:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
 }
 
 .btn-icon:hover {
