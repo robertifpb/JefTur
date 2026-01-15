@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/assets/icons/favicon_cadastro.ico" type="image/x-icon">
+    <link rel="icon" href="../assets/icons/favicon_cadastro.ico" type="image/png">
     <title>Cadastro de Cliente - [JF Tur]</title>
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script src="/assets/config.js"></script>
+    <script src="../assets/config.js"></script>
     <!-- Fontes e Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -93,7 +93,7 @@
     /* Imagem decorativa */
     .cadastro-image {
     flex: 1;
-    background-image: url('/assets/logos/cadastro_img.webp');
+    background-image: url('../assets/logos/cadastro_img.webp');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -440,7 +440,7 @@
         <div class="cadastro-right">
             <div class="cadastro-form-container">
                 <div class="company-logo">
-                    <img src="/assets/logos/logo_jftur.webp" alt="Logo da Jerfesson Turismo" class="img-responsive">
+                    <img src="../assets/logos/logo_jftur.webp" alt="Logo da Jerfesson Turismo" class="img-responsive">
                 </div>
                 <!-- Formulário de cadastro -->
                 <h2 class="cadastro-title">Portal do Cliente</h2>
@@ -779,7 +779,7 @@ const Cadastro = {
             }
             
             const script = document.createElement('script');
-            script.src = '/assets/js/config.js';
+            script.src = '../assets/js/config.js';
             
             script.onload = resolve;
             script.onerror = () => {
@@ -910,7 +910,7 @@ const Cadastro = {
             );
             
             setTimeout(() => {
-                window.location.href = '/client/acesso.html';
+                window.location.href = 'acesso.html';
             }, 3000);
         } else {
             Mensagens.mostrar(resultado.message, 'error');
