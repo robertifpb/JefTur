@@ -1,11 +1,11 @@
-🌴 JefTur — Portal de Gestão Turística
-
 <div align="center">
   <h1>JefTur — Portal de Gestão Turística</h1>
   <p>Sistema web para gestão e divulgação de destinos turísticos</p>
   
+  ![Preview do Blog](assets/images/preview.png)
   <br>
   
+
   <img src="https://img.shields.io/github/languages/top/robertifpb/JefTur?color=56BEB8&style=for-the-badge">
   <img src="https://img.shields.io/github/last-commit/robertifpb/JefTur?style=for-the-badge&color=56BEB8">
   <img src="https://img.shields.io/github/commit-activity/m/robertifpb/JefTur?style=for-the-badge&color=56BEB8">
